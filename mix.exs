@@ -15,7 +15,11 @@ defmodule Snek.MixProject do
       homepage_url: "https://github.com/xtagon/snek",
       docs: [
         main: "Snek",
-        extras: ["README.md", "LICENSE.txt"]
+        extras: [
+          "README.md",
+          "CHANGELOG.md",
+          "LICENSE.txt"
+        ]
       ],
 
       # Coverage
