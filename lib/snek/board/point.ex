@@ -60,14 +60,14 @@ defmodule Snek.Board.Point do
 
   ## Examples
 
-      iex> Snek.Board.Point.new(0, 0)
-      %Snek.Board.Point{x: 0, y: 0}
+      iex> Point.new(0, 0)
+      %Point{x: 0, y: 0}
 
-      iex> Snek.Board.Point.new(3, 1)
-      %Snek.Board.Point{x: 3, y: 1}
+      iex> Point.new(3, 1)
+      %Point{x: 3, y: 1}
 
-      iex> Snek.Board.Point.new(-2, 0)
-      %Snek.Board.Point{x: -2, y: 0}
+      iex> Point.new(-2, 0)
+      %Point{x: -2, y: 0}
 
   """
   @doc since: "0.0.1"
@@ -83,29 +83,29 @@ defmodule Snek.Board.Point do
 
   ## Examples
 
-      iex> Snek.Board.Point.new(5, 5) |> Snek.Board.Point.step(:north)
-      %Snek.Board.Point{x: 5, y: 4}
+      iex> Point.new(5, 5) |> Point.step(:north)
+      %Point{x: 5, y: 4}
 
-      iex> Snek.Board.Point.new(5, 5) |> Snek.Board.Point.step(:south)
-      %Snek.Board.Point{x: 5, y: 6}
+      iex> Point.new(5, 5) |> Point.step(:south)
+      %Point{x: 5, y: 6}
 
-      iex> Snek.Board.Point.new(5, 5) |> Snek.Board.Point.step(:east)
-      %Snek.Board.Point{x: 6, y: 5}
+      iex> Point.new(5, 5) |> Point.step(:east)
+      %Point{x: 6, y: 5}
 
-      iex> Snek.Board.Point.new(5, 5) |> Snek.Board.Point.step(:west)
-      %Snek.Board.Point{x: 4, y: 5}
+      iex> Point.new(5, 5) |> Point.step(:west)
+      %Point{x: 4, y: 5}
 
-      iex> Snek.Board.Point.new(5, 5) |> Snek.Board.Point.step(:northwest)
-      %Snek.Board.Point{x: 4, y: 4}
+      iex> Point.new(5, 5) |> Point.step(:northwest)
+      %Point{x: 4, y: 4}
 
-      iex> Snek.Board.Point.new(5, 5) |> Snek.Board.Point.step(:northeast)
-      %Snek.Board.Point{x: 6, y: 4}
+      iex> Point.new(5, 5) |> Point.step(:northeast)
+      %Point{x: 6, y: 4}
 
-      iex> Snek.Board.Point.new(5, 5) |> Snek.Board.Point.step(:southeast)
-      %Snek.Board.Point{x: 6, y: 6}
+      iex> Point.new(5, 5) |> Point.step(:southeast)
+      %Point{x: 6, y: 6}
 
-      iex> Snek.Board.Point.new(5, 5) |> Snek.Board.Point.step(:southwest)
-      %Snek.Board.Point{x: 4, y: 6}
+      iex> Point.new(5, 5) |> Point.step(:southwest)
+      %Point{x: 4, y: 6}
 
   """
   @doc since: "0.0.1"
