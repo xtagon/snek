@@ -14,7 +14,7 @@ This project is not affiliated with or sponsored by Battlesnake.
 This is an early work in progress, and should be considered experimental,
 incomplete, and unstable until v1.0.0, following [Semantic Versioning][semver].
 
-All notable changes will be recorded in the [changelog][CHANGELOG.md].
+All notable changes will be recorded in the [changelog](CHANGELOG.md).
 
 ## Open Invite
 
