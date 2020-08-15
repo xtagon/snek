@@ -7,7 +7,7 @@ Elixir.
 Snake. `Snek` provides some structure and tooling that developers can use
 toward creating Battlesnake AIs in Elixir.
 
-This project is not affiliated with or sponsored by Battlesnake,
+This project is not affiliated with or sponsored by Battlesnake.
 
 ## Status
 
