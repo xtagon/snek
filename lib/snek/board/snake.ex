@@ -11,6 +11,12 @@ defmodule Snek.Board.Snake do
   alias Snek.Board.Point
 
   @typedoc """
+  A unique ID to differentiate between snakes on a board
+  """
+  @typedoc since: "0.0.1"
+  @type id :: any
+
+  @typedoc """
   A snake on a board.
   """
   @typedoc since: "0.0.1"

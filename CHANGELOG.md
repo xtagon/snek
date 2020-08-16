@@ -10,6 +10,7 @@ adheres to [Semantic Versioning][semver].
 ### Added
 
 - A `Snek.Board` module (and submodules) for representing board positions.
+- A `Snek.Ruleset` behaviour module for implementing variations of game rules.
 
 [Unreleased]: https://github.com/xtagon/snek/tree/edge
 
