@@ -315,4 +315,152 @@ defmodule Snek.Board do
       Enum.member?(snake.body, point)
     end)
   end
+
+  @doc """
+  Returns a list of all points on the board.
+
+  ## Examples
+
+      iex> Board.new(Board.Size.new(2, 2)) |> Board.all_points
+      [
+        %Board.Point{x: 0, y: 0},
+        %Board.Point{x: 0, y: 1},
+        %Board.Point{x: 1, y: 0},
+        %Board.Point{x: 1, y: 1}
+      ]
+
+  """
+  @doc since: "0.0.1"
+  @spec all_points(t) :: list(Point.t)
+
+  def all_points(board) do
+    xs = 0..board.size.width-1
+    ys = 0..board.size.height-1
+
+    for x <- xs, y <- ys do
+      %Point{x: x, y: y}
+    end
+  end
+
+  @doc """
+  Returns a list of all unoccupied points on the board.
+
+  ## Examples
+
+      iex> apple = Board.Point.new(0, 1)
+      iex> board = Board.new(Board.Size.new(2, 2)) |> Board.spawn_apple(apple)
+      iex> Board.unoccupied_points(board)
+      [
+        %Board.Point{x: 0, y: 0},
+        %Board.Point{x: 1, y: 0},
+        %Board.Point{x: 1, y: 1}
+      ]
+
+  """
+  @doc since: "0.0.1"
+  @spec unoccupied_points(t) :: list(Point.t)
+
+  def unoccupied_points(board) do
+    board
+    |> all_points()
+    |> Enum.reject(&(occupied?(board, &1)))
+  end
+
+  @doc """
+  Returns a list of neighboring points adjascent to a point of origin.
+
+  This excludes points that are outside of the board's boundaries.
+
+  ## Examples
+
+      iex> board = Board.new(Board.Size.small)
+      iex> board |> Board.adjascent_neighbors(Board.Point.new(1, 1))
+      [
+        %Board.Point{x: 1, y: 0},
+        %Board.Point{x: 1, y: 2},
+        %Board.Point{x: 2, y: 1},
+        %Board.Point{x: 0, y: 1}
+      ]
+
+      iex> board = Board.new(Board.Size.small)
+      iex> board |> Board.adjascent_neighbors(Board.Point.new(0, 0))
+      [
+        %Board.Point{x: 0, y: 1},
+        %Board.Point{x: 1, y: 0}
+      ]
+
+      iex> board = Board.new(Board.Size.new(3, 3))
+      iex> board |> Board.adjascent_neighbors(Board.Point.new(2, 2))
+      [
+        %Board.Point{x: 2, y: 1},
+        %Board.Point{x: 1, y: 2}
+      ]
+
+  """
+  @doc since: "0.0.1"
+  @spec adjascent_neighbors(t, Point.t) :: list(Point.t)
+
+  def adjascent_neighbors(board, origin) do
+    Point.adjascent_neighbors(origin)
+    |> Enum.filter(&(within_bounds?(board, &1)))
+  end
+
+  @doc """
+  Returns a list of neighboring points diagonal to a point of origin.
+
+  This excludes points that are outside of the board's boundaries.
+
+  ## Examples
+
+      iex> board = Board.new(Board.Size.small)
+      iex> board |> Board.diagonal_neighbors(Board.Point.new(1, 1))
+      [
+        %Board.Point{x: 0, y: 0},
+        %Board.Point{x: 2, y: 0},
+        %Board.Point{x: 2, y: 2},
+        %Board.Point{x: 0, y: 2}
+      ]
+
+      iex> board = Board.new(Board.Size.small)
+      iex> board |> Board.diagonal_neighbors(Board.Point.new(0, 0))
+      [%Board.Point{x: 1, y: 1}]
+
+      iex> board = Board.new(Board.Size.new(3, 3))
+      iex> board |> Board.diagonal_neighbors(Board.Point.new(2, 2))
+      [%Board.Point{x: 1, y: 1}]
+
+  """
+  @doc since: "0.0.1"
+  @spec diagonal_neighbors(t, Point.t) :: list(Point.t)
+
+  def diagonal_neighbors(board, origin) do
+    Point.diagonal_neighbors(origin)
+    |> Enum.filter(&(within_bounds?(board, &1)))
+  end
+
+  @doc """
+  Returns true if and only if this point is within the board's boundaries,
+  otherwise false.
+
+  ## Examples
+
+      iex> board = Board.new(Board.Size.new(3, 3))
+      iex> board |> Board.within_bounds?(Board.Point.new(0, 0))
+      true
+      iex> board |> Board.within_bounds?(Board.Point.new(1, 2))
+      true
+      iex> board |> Board.within_bounds?(Board.Point.new(-1, 0))
+      false
+      iex> board |> Board.within_bounds?(Board.Point.new(0, 3))
+      false
+
+  """
+  @doc since: "0.0.1"
+  @spec within_bounds?(t, Point.t) :: boolean
+
+  def within_bounds?(board, %Point{x: x, y: y}) do
+    x_bounds = 0..board.size.width-1
+    y_bounds = 0..board.size.height-1
+    Enum.member?(x_bounds, x) && Enum.member?(y_bounds, y)
+  end
 end

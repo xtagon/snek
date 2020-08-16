@@ -144,4 +144,72 @@ defmodule Snek.Board.Point do
   def step(%Point{x: x, y: y}, :southwest) when is_integer(x) and is_integer(y) do
     %Point{x: x - 1, y: y + 1}
   end
+
+  @doc """
+  Returns a list of neighboring points adjascent to a point of origin.
+
+  ## Examples
+
+      iex> Point.adjascent_neighbors(Point.new(1, 1))
+      [
+        %Point{x: 1, y: 0},
+        %Point{x: 1, y: 2},
+        %Point{x: 2, y: 1},
+        %Point{x: 0, y: 1}
+      ]
+
+      iex> Point.adjascent_neighbors(Point.new(0, 0))
+      [
+        %Point{x: 0, y: -1},
+        %Point{x: 0, y: 1},
+        %Point{x: 1, y: 0},
+        %Point{x: -1, y: 0}
+      ]
+
+  """
+  @doc since: "0.0.1"
+  @spec adjascent_neighbors(t) :: list(t)
+
+  def adjascent_neighbors(origin) do
+    [
+      step(origin, :north),
+      step(origin, :south),
+      step(origin, :east),
+      step(origin, :west)
+    ]
+  end
+
+  @doc """
+  Returns a list of neighboring points diagonal to a point of origin.
+
+  ## Examples
+
+      iex> Point.diagonal_neighbors(Point.new(1, 1))
+      [
+        %Point{x: 0, y: 0},
+        %Point{x: 2, y: 0},
+        %Point{x: 2, y: 2},
+        %Point{x: 0, y: 2}
+      ]
+
+      iex> Point.diagonal_neighbors(Point.new(0, 0))
+      [
+        %Point{x: -1, y: -1},
+        %Point{x: 1, y: -1},
+        %Point{x: 1, y: 1},
+        %Point{x: -1, y: 1}
+      ]
+
+  """
+  @doc since: "0.0.1"
+  @spec diagonal_neighbors(t) :: list(t)
+
+  def diagonal_neighbors(origin) do
+    [
+      step(origin, :northwest),
+      step(origin, :northeast),
+      step(origin, :southeast),
+      step(origin, :southwest)
+    ]
+  end
 end
