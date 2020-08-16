@@ -6,7 +6,7 @@ defmodule Snek.Ruleset do
   dynamically specifying:
 
   1. `c:init/2`: The initial board position
-  2. `c:next/2`: Each next turn's board position, after all snakes have made their moves
+  2. `c:next/2`: Each next turn's board position after moves are applied
   3. `c:done?/1`: When the game is considered over
   """
   @moduledoc since: "0.0.1"
@@ -16,15 +16,27 @@ defmodule Snek.Ruleset do
 
   @type valid_move :: :north | :south | :east | :west
 
+  @doc """
+  Decide the initial board position for a new game.
+  """
+  @doc since: "0.0.1"
   @callback init(
     board_size :: Size.t,
     snake_ids :: MapSet.t(Snake.id)
   ) :: {:ok, Board.t} | {:error, atom}
 
+  @doc """
+  Apply moves and decide the next turn's board position.
+  """
+  @doc since: "0.0.1"
   @callback next(
     board :: Board.t,
     snake_moves :: MapSet.t({Snake.id, valid_move})
   ) :: Board.t
 
+  @doc """
+  Decide whether the game is over at this board position.
+  """
+  @doc since: "0.0.1"
   @callback done?(board :: Board.t) :: boolean
 end
