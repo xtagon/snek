@@ -14,7 +14,7 @@ defmodule Snek.MixProject do
       source_url: "https://github.com/xtagon/snek",
       homepage_url: "https://github.com/xtagon/snek",
       docs: [
-        main: "Snek",
+        main: "readme",
         extras: [
           "README.md",
           "CHANGELOG.md",
