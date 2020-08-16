@@ -32,6 +32,11 @@ defmodule Snek.Board do
     :snakes
   ]
 
+  @typedoc """
+  When spawning, `{:ok, board}` if there is space available, `{:error, :occupied}` otherwise.
+  """
+  @type spawn_result :: {:ok, t} | {:error, :occupied}
+
   @snake_default_length 3
   @snake_default_health 100
 
@@ -66,10 +71,12 @@ defmodule Snek.Board do
       iex> Board.new(Board.Size.small) |> Board.empty?
       true
 
-      iex> Board.new(Board.Size.small) |> Board.spawn_apple_at_center |> Board.empty?
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple_at_center
+      iex> Board.empty?(board)
       false
 
-      iex> Board.new(Board.Size.small) |> Board.spawn_snake_at_center("mysnek") |> Board.empty?
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_snake_at_center("mysnek")
+      iex> Board.empty?(board)
       false
 
   """
@@ -83,20 +90,26 @@ defmodule Snek.Board do
   @doc """
   Spawns an apple in the center of the board.
 
-  Returns the next board position.
+  Returns `{:ok, board}` if there is space available, returns
+  `{:error, :occupied}` otherwise.
 
   ## Examples
 
-      iex> Board.new(Board.Size.new(3, 3)) |> Board.spawn_apple_at_center()
+      iex> {:ok, board} = Board.new(Board.Size.new(3, 3)) |> Board.spawn_apple_at_center()
+      iex> board
       %Board{
         apples: [%Board.Point{x: 1, y: 1}],
         size: %Board.Size{height: 3, width: 3},
         snakes: []
       }
 
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple_at_center()
+      iex> board |> Board.spawn_apple_at_center()
+      {:error, :occupied}
+
   """
   @doc since: "0.0.1"
-  @spec spawn_apple_at_center(t) :: t
+  @spec spawn_apple_at_center(t) :: spawn_result
 
   def spawn_apple_at_center(board) do
     spawn_apple(board, Board.center_point(board))
@@ -105,34 +118,47 @@ defmodule Snek.Board do
   @doc """
   Spawns an apple at the specified point on the board.
 
-  Returns the next board position.
+  Returns `{:ok, board}` if there is space available, returns
+  `{:error, :occupied}` otherwise.
 
   ## Examples
 
-      iex> Board.new(Board.Size.small) |> Board.spawn_apple(Board.Point.new(1, 1))
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(Board.Point.new(1, 1))
+      iex> board
       %Board{
         apples: [%Board.Point{x: 1, y: 1}],
         size: %Board.Size{height: 7, width: 7},
         snakes: []
       }
 
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(Board.Point.new(1, 1))
+      iex> board |> Board.spawn_apple(Board.Point.new(1, 1))
+      {:error, :occupied}
+
   """
   @doc since: "0.0.1"
-  @spec spawn_apple(t, Point.t) :: t
+  @spec spawn_apple(t, Point.t) :: spawn_result
 
   def spawn_apple(board, point) do
-    %Board{board | apples: [point | board.apples]}
+    if occupied?(board, point) do
+      {:error, :occupied}
+    else
+      board = %Board{board | apples: [point | board.apples]}
+      {:ok, board}
+    end
   end
 
   @doc """
   Spawns apples at each of the specified points on the board.
 
-  Returns the next board position.
+  Returns `{:ok, board}` if there is space available, returns
+  `{:error, :occupied}` otherwise.
 
   ## Examples
 
       iex> points = [Board.Point.new(1, 1), Board.Point.new(1, 2)]
-      iex> Board.new(Board.Size.small) |> Board.spawn_apples(points)
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apples(points)
+      iex> board
       %Board{
         apples: [
           %Board.Point{x: 1, y: 1},
@@ -142,12 +168,23 @@ defmodule Snek.Board do
         snakes: []
       }
 
+      iex> occupied_point = Board.Point.new(1, 1)
+      iex> new_points = [occupied_point, Board.Point.new(1, 2)]
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(occupied_point)
+      iex> Board.spawn_apples(board, new_points)
+      {:error, :occupied}
+
   """
   @doc since: "0.0.1"
-  @spec spawn_apples(t, list(Point.t)) :: t
+  @spec spawn_apples(t, list(Point.t)) :: spawn_result
 
   def spawn_apples(board, points) do
-    %Board{board | apples: Enum.concat(points, board.apples)}
+    if any_points_occupied?(board, points) do
+      {:error, :occupied}
+    else
+      board = %Board{board | apples: Enum.concat(points, board.apples)}
+      {:ok, board}
+    end
   end
 
   @doc """
@@ -177,11 +214,12 @@ defmodule Snek.Board do
   @doc """
   Spawns a snake in the center of the board.
 
-  Returns the next board position.
+  Returns `{:ok, board}` if there is space available, returns
+  `{:error, :occupied}` otherwise.
 
   ## Examples
 
-      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake_at_center("mysnek")
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_snake_at_center("mysnek")
       iex> board.snakes
       [
         %Board.Snake{
@@ -191,9 +229,13 @@ defmodule Snek.Board do
         }
       ]
 
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_snake_at_center("mysnek")
+      iex> Board.spawn_snake_at_center(board, "mysnek")
+      {:error, :occupied}
+
   """
   @doc since: "0.0.1"
-  @spec spawn_snake_at_center(t, any, non_neg_integer, non_neg_integer) :: t
+  @spec spawn_snake_at_center(t, any, non_neg_integer, non_neg_integer) :: spawn_result
 
   def spawn_snake_at_center(board, id, length \\ @snake_default_length, health \\ @snake_default_health) do
     head = center_point(board)
@@ -203,11 +245,12 @@ defmodule Snek.Board do
   @doc """
   Spawns a snake at the specified point on the board.
 
-  Returns the next board position.
+  Returns `{:ok, board}` if there is space available, returns
+  `{:error, :occupied}` otherwise.
 
   ## Examples
 
-      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", Board.Point.new(1, 1))
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", Board.Point.new(1, 1))
       iex> board.snakes
       [
         %Board.Snake{
@@ -217,18 +260,28 @@ defmodule Snek.Board do
         }
       ]
 
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", Board.Point.new(1, 1))
+      iex> Board.spawn_snake(board, "mysnek", Board.Point.new(1, 1))
+      {:error, :occupied}
+
   """
   @doc since: "0.0.1"
-  @spec spawn_snake(t, any, Point.t, non_neg_integer, non_neg_integer) :: t
+  @spec spawn_snake(t, any, Point.t, non_neg_integer, non_neg_integer) :: spawn_result
 
   def spawn_snake(board, id, head, length \\ @snake_default_length, health \\ @snake_default_health) do
-    snake = %Snake{
-      id: id,
-      health: health,
-      body: List.duplicate(head, length)
-    }
+    if occupied?(board, head) do
+      {:error, :occupied}
+    else
+      snake = %Snake{
+        id: id,
+        health: health,
+        body: List.duplicate(head, length)
+      }
 
-    %Board{board | snakes: [snake | board.snakes]}
+      board = %Board{board | snakes: [snake | board.snakes]}
+
+      {:ok, board}
+    end
   end
 
   @doc """
@@ -243,12 +296,12 @@ defmodule Snek.Board do
       false
 
       iex> point = Board.Point.new(1, 3)
-      iex> board = Board.new(Board.Size.small) |> Board.spawn_apple(point)
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(point)
       iex> Board.occupied?(board, point)
       true
 
       iex> point = Board.Point.new(1, 3)
-      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", point)
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", point)
       iex> Board.occupied?(board, point)
       true
 
@@ -293,12 +346,12 @@ defmodule Snek.Board do
       false
 
       iex> point = Board.Point.new(1, 3)
-      iex> board = Board.new(Board.Size.small) |> Board.spawn_apple(point)
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(point)
       iex> Board.occupied_by_apple?(board, point)
       true
 
       iex> point = Board.Point.new(1, 3)
-      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", point)
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", point)
       iex> Board.occupied_by_apple?(board, point)
       false
 
@@ -320,12 +373,12 @@ defmodule Snek.Board do
       false
 
       iex> point = Board.Point.new(1, 3)
-      iex> board = Board.new(Board.Size.small) |> Board.spawn_apple(point)
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(point)
       iex> Board.occupied_by_snake?(board, point)
       false
 
       iex> point = Board.Point.new(1, 3)
-      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", point)
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", point)
       iex> Board.occupied_by_snake?(board, point)
       true
 
@@ -371,7 +424,7 @@ defmodule Snek.Board do
   ## Examples
 
       iex> apple = Board.Point.new(0, 1)
-      iex> board = Board.new(Board.Size.new(2, 2)) |> Board.spawn_apple(apple)
+      iex> {:ok, board} = Board.new(Board.Size.new(2, 2)) |> Board.spawn_apple(apple)
       iex> Board.unoccupied_points(board)
       [
         %Board.Point{x: 0, y: 0},
