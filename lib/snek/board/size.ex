@@ -46,7 +46,7 @@ defmodule Snek.Board.Size do
   @doc since: "0.0.1"
   @spec small :: t
 
-  def small(), do: %Size{width: 7, height: 7}
+  def small, do: %Size{width: 7, height: 7}
 
   @doc """
   Return a medium (11x11) board size.
@@ -60,7 +60,7 @@ defmodule Snek.Board.Size do
   @doc since: "0.0.1"
   @spec medium :: t
 
-  def medium(), do: %Size{width: 11, height: 11}
+  def medium, do: %Size{width: 11, height: 11}
 
   @doc """
   Return a large (19x19) board size.
@@ -74,5 +74,5 @@ defmodule Snek.Board.Size do
   @doc since: "0.0.1"
   @spec large :: t
 
-  def large(), do: %Size{width: 19, height: 19}
+  def large, do: %Size{width: 19, height: 19}
 end
