@@ -87,7 +87,7 @@ defmodule Snek.Board do
 
   ## Examples
 
-      iex>Board.new(Board.Size.new(3, 3)) |> Board.spawn_apple_at_center()
+      iex> Board.new(Board.Size.new(3, 3)) |> Board.spawn_apple_at_center()
       %Board{
         apples: [%Board.Point{x: 1, y: 1}],
         size: %Board.Size{height: 3, width: 3},
@@ -109,7 +109,7 @@ defmodule Snek.Board do
 
   ## Examples
 
-      iex>Board.new(Board.Size.small) |> Board.spawn_apple(Board.Point.new(1, 1))
+      iex> Board.new(Board.Size.small) |> Board.spawn_apple(Board.Point.new(1, 1))
       %Board{
         apples: [%Board.Point{x: 1, y: 1}],
         size: %Board.Size{height: 7, width: 7},
@@ -131,8 +131,8 @@ defmodule Snek.Board do
 
   ## Examples
 
-      iex>points = [Board.Point.new(1, 1), Board.Point.new(1, 2)]
-      iex>Board.new(Board.Size.small) |> Board.spawn_apples(points)
+      iex> points = [Board.Point.new(1, 1), Board.Point.new(1, 2)]
+      iex> Board.new(Board.Size.small) |> Board.spawn_apples(points)
       %Board{
         apples: [
           %Board.Point{x: 1, y: 1},
@@ -158,10 +158,10 @@ defmodule Snek.Board do
 
   ## Examples
 
-      iex>Board.new(Board.Size.new(3, 3)) |> Board.center_point()
+      iex> Board.new(Board.Size.new(3, 3)) |> Board.center_point()
       %Board.Point{x: 1, y: 1}
 
-      iex>Board.new(Board.Size.new(8, 8)) |> Board.center_point()
+      iex> Board.new(Board.Size.new(8, 8)) |> Board.center_point()
       %Board.Point{x: 3, y: 3}
 
   """
@@ -181,8 +181,8 @@ defmodule Snek.Board do
 
   ## Examples
 
-      iex>board = Board.new(Board.Size.small) |> Board.spawn_snake_at_center("mysnek")
-      iex>board.snakes
+      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake_at_center("mysnek")
+      iex> board.snakes
       [
         %Board.Snake{
           body: [%Board.Point{x: 3, y: 3}, %Board.Point{x: 3, y: 3}, %Board.Point{x: 3, y: 3}],
@@ -207,8 +207,8 @@ defmodule Snek.Board do
 
   ## Examples
 
-      iex>board = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", Board.Point.new(1, 1))
-      iex>board.snakes
+      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", Board.Point.new(1, 1))
+      iex> board.snakes
       [
         %Board.Snake{
           body: [%Board.Point{x: 1, y: 1}, %Board.Point{x: 1, y: 1}, %Board.Point{x: 1, y: 1}],
