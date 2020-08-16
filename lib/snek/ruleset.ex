@@ -14,6 +14,9 @@ defmodule Snek.Ruleset do
   alias Snek.Board
   alias Board.{Size, Snake}
 
+  @typedoc """
+  Valid moves for a snake to play.
+  """
   @type valid_move :: :north | :south | :east | :west
 
   @doc """
