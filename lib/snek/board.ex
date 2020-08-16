@@ -230,4 +230,89 @@ defmodule Snek.Board do
 
     %Board{board | snakes: [snake | board.snakes]}
   end
+
+  @doc """
+  Returns true if and only if the given point on the board is occupied,
+  otherwise false.
+
+  A point may be occupied by an apple, or any snake's body part.
+
+  ## Examples
+
+      iex> Board.new(Board.Size.small) |> Board.occupied?(Board.Point.new(1, 3))
+      false
+
+      iex> point = Board.Point.new(1, 3)
+      iex> board = Board.new(Board.Size.small) |> Board.spawn_apple(point)
+      iex> Board.occupied?(board, point)
+      true
+
+      iex> point = Board.Point.new(1, 3)
+      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", point)
+      iex> Board.occupied?(board, point)
+      true
+
+  """
+  @doc since: "0.0.1"
+  @spec occupied?(t, Point.t) :: boolean
+
+  def occupied?(board, point) do
+    occupied_by_apple?(board, point) || occupied_by_snake?(board, point)
+  end
+
+  @doc """
+  Returns true if and only if the given point on the board is occupied by an
+  apple, otherwise false.
+
+  ## Examples
+
+      iex> Board.new(Board.Size.small) |> Board.occupied_by_apple?(Board.Point.new(1, 3))
+      false
+
+      iex> point = Board.Point.new(1, 3)
+      iex> board = Board.new(Board.Size.small) |> Board.spawn_apple(point)
+      iex> Board.occupied_by_apple?(board, point)
+      true
+
+      iex> point = Board.Point.new(1, 3)
+      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", point)
+      iex> Board.occupied_by_apple?(board, point)
+      false
+
+  """
+  @doc since: "0.0.1"
+  @spec occupied_by_apple?(t, Point.t) :: boolean
+
+  def occupied_by_apple?(board, point) do
+    Enum.member?(board.apples, point)
+  end
+
+  @doc """
+  Returns true if and only if the given point on the board is occupied by a
+  snake's body part, otherwise false.
+
+  ## Examples
+
+      iex> Board.new(Board.Size.small) |> Board.occupied_by_snake?(Board.Point.new(1, 3))
+      false
+
+      iex> point = Board.Point.new(1, 3)
+      iex> board = Board.new(Board.Size.small) |> Board.spawn_apple(point)
+      iex> Board.occupied_by_snake?(board, point)
+      false
+
+      iex> point = Board.Point.new(1, 3)
+      iex> board = Board.new(Board.Size.small) |> Board.spawn_snake("mysnek", point)
+      iex> Board.occupied_by_snake?(board, point)
+      true
+
+  """
+  @doc since: "0.0.1"
+  @spec occupied_by_snake?(t, Point.t) :: boolean
+
+  def occupied_by_snake?(board, point) do
+    Enum.any?(board.snakes, fn snake ->
+      Enum.member?(snake.body, point)
+    end)
+  end
 end
