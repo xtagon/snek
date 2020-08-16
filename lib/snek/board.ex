@@ -261,6 +261,29 @@ defmodule Snek.Board do
   end
 
   @doc """
+  Returns true if and only if any of the given points on the board are occupied.
+
+  A point may be occupied by an apple, or any snake's body part.
+
+  ## Examples
+
+      iex> board = Board.new(Board.Size.small)
+      iex> board |> Board.any_points_occupied?([Board.Point.new(1, 3), Board.Point.new(0, 0)])
+      false
+
+      iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(Board.Point.new(1, 3))
+      iex> board |> Board.any_points_occupied?([Board.Point.new(1, 3), Board.Point.new(0, 0)])
+      true
+
+  """
+  @doc since: "0.0.1"
+  @spec any_points_occupied?(t, list(Point.t)) :: boolean
+
+  def any_points_occupied?(board, points) do
+    Enum.any?(points, &(occupied?(board, &1)))
+  end
+
+  @doc """
   Returns true if and only if the given point on the board is occupied by an
   apple, otherwise false.
 
