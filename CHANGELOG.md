@@ -9,7 +9,7 @@ adheres to [Semantic Versioning][semver].
 
 ### Added
 
-- A `Snek.Board.Point` module for representing points on a board.
+- A `Snek.Board` module (and submodules) for representing board positions.
 
 [Unreleased]: https://github.com/xtagon/snek/tree/edge
 

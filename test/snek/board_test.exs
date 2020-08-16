@@ -1,4 +1,5 @@
 defmodule BoardTest do
   use ExUnit.Case
-  doctest Snek.Board
+  alias Snek.Board
+  doctest Board, import: true
 end
