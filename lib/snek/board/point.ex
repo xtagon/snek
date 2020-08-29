@@ -212,4 +212,72 @@ defmodule Snek.Board.Point do
       step(origin, :southwest)
     ]
   end
+
+  @doc """
+  Returns the difference between two points, which could be used to find a
+  vector between points, such as when using the neck and head of a snake to
+  determine the point continuing in the last moved direction.
+
+  ## Examples
+
+      iex> Point.difference(Point.new(1, 2), Point.new(1, 3))
+      %Point{x: 0, y: -1}
+
+      iex> Point.difference(Point.new(4, 4), Point.new(5, 4))
+      %Point{x: -1, y: 0}
+
+  """
+  @doc since: "0.0.1"
+  @spec difference(t, t) :: t
+
+  def difference(%Point{x: x1, y: y1}, %Point{x: x2, y: y2}) do
+    %Point{
+      x: x1 - x2,
+      y: y1 - y2
+    }
+  end
+
+  @doc """
+  Returns the sum of two points, which could be used to apply a vector point to
+  a fixed points, such as when using the neck and head of a snake to determine
+  the point continuing in the last moved direction.
+
+  ## Examples
+
+      iex> Point.sum(Point.new(1, 2), Point.new(1, 0))
+      %Point{x: 2, y: 2}
+
+      iex> Point.sum(Point.new(4, 4), Point.new(-1, 1))
+      %Point{x: 3, y: 5}
+
+  """
+  @doc since: "0.0.1"
+  @spec sum(t, t) :: t
+
+  def sum(%Point{x: x1, y: y1}, %Point{x: x2, y: y2}) do
+    %Point{
+      x: x1 + x2,
+      y: y1 + y2
+    }
+  end
+
+  @doc """
+  Returns true if and only if both X and Y are zero, which could be used to
+  determine if a point is a null vector.
+
+  ## Examples
+  #
+      iex> Point.zero?(Point.new(0, 0))
+      true
+
+      iex> Point.zero?(Point.new(0, 1))
+      false
+
+
+  """
+  @doc since: "0.0.1"
+  @spec zero?(t) :: boolean
+
+  def zero?(%Point{x: 0, y: 0}), do: true
+  def zero?(%Point{}), do: false
 end
