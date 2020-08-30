@@ -7,7 +7,7 @@ defmodule Snek.Ruleset.Standard do
   a mistake either in the implementation or the tests/specification, please
   report it as a bug.
   """
-  @moduledoc since: "0.0.1"
+  @moduledoc since: "0.1.0"
 
   @behaviour Snek.Ruleset
 

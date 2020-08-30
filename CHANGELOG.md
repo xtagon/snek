@@ -7,6 +7,8 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+## [0.1.0] - 2020-08-30
+
 ### Added
 
 - A `Snek.Board` module (and submodules) for representing board positions.
@@ -14,7 +16,8 @@ adheres to [Semantic Versioning][semver].
 - A `Snek.Ruleset.Standard` module implementing the Battlesnake Standard rules.
 - A `Snek.Ruleset.Solo` module implementing the Battlesnake Solo rules.
 
-[Unreleased]: https://github.com/xtagon/snek/tree/edge
+[Unreleased]: https://github.com/xtagon/snek/compare/v0.0.1...edge
+[0.1.0]: https://github.com/olivierlacan/keep-a-changelog/releases/tag/v0.1.0
 
 [keepachangelog]: https://keepachangelog.com/en/1.0.0/
 [semver]: https://semver.org/spec/v2.0.0.html

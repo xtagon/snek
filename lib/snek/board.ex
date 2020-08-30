@@ -5,7 +5,7 @@ defmodule Snek.Board do
   This may be used to keep track of state in a game, each turn of the
   game producing the next board position.
   """
-  @moduledoc since: "0.0.1"
+  @moduledoc since: "0.1.0"
 
   alias __MODULE__
   alias Board.{Point, Size, Snake}
@@ -13,7 +13,7 @@ defmodule Snek.Board do
   @typedoc """
   A board position.
   """
-  @typedoc since: "0.0.1"
+  @typedoc since: "0.1.0"
   @type t :: %Board{
     size: Size.t,
     apples: list(Point.t),
@@ -49,7 +49,7 @@ defmodule Snek.Board do
       %Board{size: %Board.Size{width: 7, height: 7}, apples: [], snakes: []}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec new(Size.t) :: t
 
   def new(size) do
@@ -80,7 +80,7 @@ defmodule Snek.Board do
       false
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec empty?(t) :: boolean
 
   def empty?(%Board{apples: apples}) when length(apples) > 0, do: false
@@ -108,7 +108,7 @@ defmodule Snek.Board do
       {:error, :occupied}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec spawn_apple_at_center(t) :: spawn_result
 
   def spawn_apple_at_center(board) do
@@ -136,7 +136,7 @@ defmodule Snek.Board do
       {:error, :occupied}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec spawn_apple(t, Point.t) :: spawn_result
 
   def spawn_apple(board, point) do
@@ -169,7 +169,7 @@ defmodule Snek.Board do
       }
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec spawn_apple_unchecked(t, Point.t) :: t
 
   def spawn_apple_unchecked(board, point) do
@@ -203,7 +203,7 @@ defmodule Snek.Board do
       {:error, :occupied}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec spawn_apples(t, list(Point.t)) :: spawn_result
 
   def spawn_apples(board, points) do
@@ -230,7 +230,7 @@ defmodule Snek.Board do
       %Board.Point{x: 3, y: 3}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec center_point(t) :: Point.t
 
   def center_point(%Board{size: %Size{width: width, height: height}}) do
@@ -263,7 +263,7 @@ defmodule Snek.Board do
       {:error, :occupied}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec spawn_snake_at_center(t, any, non_neg_integer, non_neg_integer) :: spawn_result
 
   def spawn_snake_at_center(board, id, length \\ @snake_default_length, health \\ @snake_default_health) do
@@ -302,7 +302,7 @@ defmodule Snek.Board do
       {:error, :occupied}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec spawn_snakes(t, list({Snake.id, Point.t}), non_neg_integer, non_neg_integer) :: spawn_result
 
   def spawn_snakes(board, ids_and_heads, length \\ @snake_default_length, health \\ @snake_default_health)
@@ -342,7 +342,7 @@ defmodule Snek.Board do
       {:error, :occupied}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec spawn_snake(t, any, Point.t, non_neg_integer, non_neg_integer) :: spawn_result
 
   def spawn_snake(board, id, head, length \\ @snake_default_length, health \\ @snake_default_health) do
@@ -397,7 +397,7 @@ defmodule Snek.Board do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec move_snakes(t, list({Snake.id, Snake.snake_move | nil})) :: t
 
   def move_snakes(board, snake_moves)
@@ -439,7 +439,7 @@ defmodule Snek.Board do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec move_snakes(t, list({Snake.id, Snake.snake_move | nil})) :: t
 
   def move_snake(board, snake_id, direction) do
@@ -480,7 +480,7 @@ defmodule Snek.Board do
       99
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec reduce_snake_healths(t) :: t
 
   def reduce_snake_healths(board) do
@@ -521,7 +521,7 @@ defmodule Snek.Board do
       :alive
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec maybe_eliminate_snakes(t) :: t
 
   def maybe_eliminate_snakes(board) do
@@ -572,7 +572,7 @@ defmodule Snek.Board do
       {:eliminated, :starvation}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec maybe_eliminate_snake(t, Snake.t, list(Snake.t)) :: t
 
   def maybe_eliminate_snake(_board, %Snake{state: state} = snake, _snakes_by_length_descending) when state != :alive do
@@ -657,7 +657,7 @@ defmodule Snek.Board do
       true
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec maybe_feed_snakes(t) :: t
 
   def maybe_feed_snakes(board) do
@@ -713,7 +713,7 @@ defmodule Snek.Board do
       true
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec occupied?(t, Point.t) :: boolean
 
   def occupied?(board, point) do
@@ -736,7 +736,7 @@ defmodule Snek.Board do
       true
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec any_points_occupied?(t, list(Point.t)) :: boolean
 
   def any_points_occupied?(board, points) do
@@ -763,7 +763,7 @@ defmodule Snek.Board do
       false
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec occupied_by_apple?(t, Point.t) :: boolean
 
   def occupied_by_apple?(board, point) do
@@ -790,7 +790,7 @@ defmodule Snek.Board do
       true
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec occupied_by_snake?(t, Point.t) :: boolean
 
   def occupied_by_snake?(board, point) do
@@ -813,7 +813,7 @@ defmodule Snek.Board do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec all_points(t) :: list(Point.t)
 
   def all_points(board) do
@@ -841,7 +841,7 @@ defmodule Snek.Board do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec all_even_points(t) :: list(Point.t)
 
   def all_even_points(board) do
@@ -865,7 +865,7 @@ defmodule Snek.Board do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec unoccupied_points(t) :: list(Point.t)
 
   def unoccupied_points(board) do
@@ -887,7 +887,7 @@ defmodule Snek.Board do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec occupied_points(t) :: list(Point.t)
 
   def occupied_points(board) do
@@ -927,7 +927,7 @@ defmodule Snek.Board do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec adjascent_neighbors(t, Point.t) :: list(Point.t)
 
   def adjascent_neighbors(board, origin) do
@@ -963,7 +963,7 @@ defmodule Snek.Board do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec unoccupied_adjascent_neighbors(t, Point.t) :: list(Point.t)
 
   def unoccupied_adjascent_neighbors(board, origin) do
@@ -996,7 +996,7 @@ defmodule Snek.Board do
       [%Board.Point{x: 1, y: 1}]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec diagonal_neighbors(t, Point.t) :: list(Point.t)
 
   def diagonal_neighbors(board, origin) do
@@ -1032,7 +1032,7 @@ defmodule Snek.Board do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec unoccupied_diagonal_neighbors(t, Point.t) :: list(Point.t)
 
   def unoccupied_diagonal_neighbors(board, origin) do
@@ -1057,7 +1057,7 @@ defmodule Snek.Board do
       false
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec within_bounds?(t, Point.t) :: boolean
 
   def within_bounds?(board, %Point{x: x, y: y}) do
@@ -1083,7 +1083,7 @@ defmodule Snek.Board do
       true
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec out_of_bounds?(t, Point.t) :: boolean
 
   def out_of_bounds?(board, point) do
@@ -1107,7 +1107,7 @@ defmodule Snek.Board do
       true
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec snake_out_of_bounds?(t, Snake.t) :: boolean
 
   def snake_out_of_bounds?(board, snake) do
@@ -1141,7 +1141,7 @@ defmodule Snek.Board do
       false
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec snake_collides_with_other_snake?(Snake.t, Snake.t) :: boolean
 
   def snake_collides_with_other_snake?(snake_a, snake_b) do
@@ -1173,7 +1173,7 @@ defmodule Snek.Board do
       false
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec snake_loses_head_to_head_collision?(Snake.t, Snake.t) :: boolean
 
   def snake_loses_head_to_head_collision?(snake_a, snake_b) do
@@ -1202,7 +1202,7 @@ defmodule Snek.Board do
       1
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec alive_snakes_remaining(t) :: non_neg_integer
 
   def alive_snakes_remaining(%Board{snakes: snakes}) do

@@ -5,5 +5,5 @@ defmodule Snek do
   This top-level module is just a namespace. Check the submodules for all the
   interesting bits.
   """
-  @moduledoc since: "0.0.1"
+  @moduledoc since: "0.1.0"
 end

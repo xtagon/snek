@@ -2,7 +2,7 @@ defmodule Snek.Board.Point do
   @moduledoc """
   A struct for representing points on a board's grid.
   """
-  @moduledoc since: "0.0.1"
+  @moduledoc since: "0.1.0"
 
   alias __MODULE__
 
@@ -11,7 +11,7 @@ defmodule Snek.Board.Point do
 
   May be relative or absolute.
   """
-  @typedoc since: "0.0.1"
+  @typedoc since: "0.1.0"
   @type t :: %Point{
     x: x,
     y: y
@@ -28,7 +28,7 @@ defmodule Snek.Board.Point do
 
   For relative points, you may use a negative integer.
   """
-  @typedoc since: "0.0.1"
+  @typedoc since: "0.1.0"
   @type x :: integer()
 
   @typedoc """
@@ -42,13 +42,13 @@ defmodule Snek.Board.Point do
 
   For relative points, you may use a negative integer.
   """
-  @typedoc since: "0.0.1"
+  @typedoc since: "0.1.0"
   @type y :: integer()
 
   @typedoc """
   A direction from a point toward its adjascent or diagonal neighbor.
   """
-  @typedoc since: "0.0.1"
+  @typedoc since: "0.1.0"
   @type direction :: :north | :south | :east | :west | :northwest | :northeast | :southeast | :southwest
 
   @enforce_keys [:x, :y]
@@ -70,7 +70,7 @@ defmodule Snek.Board.Point do
       %Point{x: -2, y: 0}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec new(x, y) :: t
 
   def new(x, y) when is_integer(x) and is_integer(y) do
@@ -108,7 +108,7 @@ defmodule Snek.Board.Point do
       %Point{x: 4, y: 6}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec step(t, direction) :: t
 
   def step(origin, direction)
@@ -167,7 +167,7 @@ defmodule Snek.Board.Point do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec adjascent_neighbors(t) :: list(t)
 
   def adjascent_neighbors(origin) do
@@ -201,7 +201,7 @@ defmodule Snek.Board.Point do
       ]
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec diagonal_neighbors(t) :: list(t)
 
   def diagonal_neighbors(origin) do
@@ -227,7 +227,7 @@ defmodule Snek.Board.Point do
       %Point{x: -1, y: 0}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec difference(t, t) :: t
 
   def difference(%Point{x: x1, y: y1}, %Point{x: x2, y: y2}) do
@@ -251,7 +251,7 @@ defmodule Snek.Board.Point do
       %Point{x: 3, y: 5}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec sum(t, t) :: t
 
   def sum(%Point{x: x1, y: y1}, %Point{x: x2, y: y2}) do
@@ -274,7 +274,7 @@ defmodule Snek.Board.Point do
       false
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec zero?(t) :: boolean
 
   def zero?(%Point{x: 0, y: 0}), do: true
@@ -305,7 +305,7 @@ defmodule Snek.Board.Point do
       false
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec even?(t) :: boolean
 
   def even?(%Point{x: x, y: y}) do
@@ -321,7 +321,7 @@ defmodule Snek.Board.Point do
       3
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec manhattan_distance(t, t) :: integer
 
   def manhattan_distance(point_a, point_b)
@@ -342,7 +342,7 @@ defmodule Snek.Board.Point do
       %Point{x: -1, y: 0}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec rotate_clockwise(t) :: t
 
   def rotate_clockwise(%Point{x: x, y: y}), do: %Point{x: -y, y: x}
@@ -359,7 +359,7 @@ defmodule Snek.Board.Point do
       %Point{x: 0, y: 1}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec rotate_counterclockwise(t) :: t
 
   def rotate_counterclockwise(%Point{x: x, y: y}), do: %Point{x: y, y: -x}
