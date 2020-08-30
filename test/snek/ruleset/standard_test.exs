@@ -63,6 +63,26 @@ defmodule StandardRulesetTest do
       end
     end
 
+    property "all snakes start with a body length of 3", context do
+      check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
+        assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
+
+        assert Enum.all?(board.snakes, fn snake ->
+          length(snake.body) == 3
+        end)
+      end
+    end
+
+    property "all snakes start with body parts stacked at the same point", context do
+      check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
+        assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
+
+        assert Enum.all?(board.snakes, fn snake ->
+          length(Enum.uniq(snake.body)) == 1
+        end)
+      end
+    end
+
     property "spawns at least one apple", context do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
@@ -124,6 +144,26 @@ defmodule StandardRulesetTest do
         unique_snakes = Enum.uniq_by(board.snakes, &(&1.id))
 
         assert length(board.snakes) == length(unique_snakes)
+      end
+    end
+
+    property "all snakes start with a body length of 3", context do
+      check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
+        assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
+
+        assert Enum.all?(board.snakes, fn snake ->
+          length(snake.body) == 3
+        end)
+      end
+    end
+
+    property "all snakes start with body parts stacked at the same point", context do
+      check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
+        assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
+
+        assert Enum.all?(board.snakes, fn snake ->
+          length(Enum.uniq(snake.body)) == 1
+        end)
       end
     end
 
