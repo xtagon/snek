@@ -111,7 +111,7 @@ defmodule StandardRulesetTest do
     end
 
     property "spawns exactly one snake per ID", context do
-        check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
+      check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
         assert length(board.snakes) == length(snake_ids)
       end
