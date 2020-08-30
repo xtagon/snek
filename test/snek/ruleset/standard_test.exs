@@ -320,4 +320,24 @@ defmodule StandardRulesetTest do
       end
     end
   end
+
+  describe "done/1" do
+    test "continues the game while there are alive snakes remaining, then terminates when only one alive snake remains" do
+      with empty_board <- Board.new(Size.small),
+           {:ok, board_with_1_snake} <- Board.spawn_snake(empty_board, "snek1", Point.new(0, 0)),
+           {:ok, board_with_2_snakes} <- Board.spawn_snake(board_with_1_snake, "snek2", Point.new(2, 0)),
+           {:ok, board_with_3_snakes} <- Board.spawn_snake(board_with_2_snakes, "snek3", Point.new(4, 0)),
+           board_with_1_snake_eliminated <- Standard.next(board_with_3_snakes, [{"snek1", :north}, {"snek2", :east}, {"snek3", :east}]),
+           board_with_2_snakes_eliminated <- Standard.next(board_with_1_snake_eliminated, [{"snek1", nil}, {"snek2", :north}, {"snek3", :south}])
+      do
+        assert Board.alive_snakes_remaining(board_with_3_snakes) == 3
+        assert Board.alive_snakes_remaining(board_with_1_snake_eliminated) == 2
+        assert Board.alive_snakes_remaining(board_with_2_snakes_eliminated) == 1
+
+        refute Standard.done?(board_with_3_snakes)
+        refute Standard.done?(board_with_1_snake_eliminated)
+        assert Standard.done?(board_with_2_snakes_eliminated)
+      end
+    end
+  end
 end
