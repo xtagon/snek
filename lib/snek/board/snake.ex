@@ -20,7 +20,7 @@ defmodule Snek.Board.Snake do
   A valid direction for a snake to move according to the game rules.
   """
   @typedoc since: "0.0.1"
-  @type snake_move :: :north | :south | :east | :west
+  @type snake_move :: :north | :south | :east | :west | :forward | :left | :right
 
   @typedoc """
   Whether a snake is currently alive, or has been eliminated.
@@ -86,12 +86,13 @@ defmodule Snek.Board.Snake do
   If the snake is already eliminated or the snake does not have any body parts,
   no move will be applied and the snake will remain unchanged.
 
+  If the direction given is `:left`, `:right`, or `:forward` then the snake is
+  moved in that direction relative to the snake's last moved direction.
+
   If the direction given is `nil`, or not a valid direction in which to move,
-  the snake will be moved in the last direction in which the snake has
-  previously moved, as determined by extrapolating from the neck and head
-  position. If the snake does not have both head and neck body parts, the snake
-  will default to moving `:north` instead, as in that case the last moved
-  direction cannot be extrapolated.
+  the snake will be moved in the `:forward` direction. If the snake does not
+  have both head and neck body parts, the snake will default to moving `:north`
+  instead, as in that case the last moved direction cannot be extrapolated.
 
   Returns the modified snake.
 
@@ -141,6 +142,16 @@ defmodule Snek.Board.Snake do
 
   def move(%Snake{body: [head | _rest]} = snake, direction) when direction in [:north, :south, :east, :west] do
     slither(snake, Point.step(head, direction))
+  end
+
+  def move(%Snake{body: [head, neck | _rest]} = snake, :left) when head != neck do
+    vector = Point.difference(head, neck) |> Point.rotate_counterclockwise
+    slither(snake, Point.sum(head, vector))
+  end
+
+  def move(%Snake{body: [head, neck | _rest]} = snake, :right) when head != neck do
+    vector = Point.difference(head, neck) |> Point.rotate_clockwise
+    slither(snake, Point.sum(head, vector))
   end
 
   def move(%Snake{body: [head, neck | _rest]} = snake, _direction) when head != neck do

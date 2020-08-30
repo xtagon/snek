@@ -329,4 +329,38 @@ defmodule Snek.Board.Point do
   def manhattan_distance(%Point{x: x1, y: y1}, %Point{x: x2, y: y2}) do
     abs(x1 - x2) + abs(y1 - y2)
   end
+
+  @doc """
+  Rotates a point 90 degrees clockwise.
+
+  This is useful for rotating vectors, which can help with relative directions
+  such as `:left` and `:right`.
+
+  ## Examples
+
+      iex> Point.rotate_clockwise(Point.new(0, 1))
+      %Point{x: -1, y: 0}
+
+  """
+  @doc since: "0.0.1"
+  @spec rotate_clockwise(t) :: t
+
+  def rotate_clockwise(%Point{x: x, y: y}), do: %Point{x: -y, y: x}
+
+  @doc """
+  Rotates a point 90 degrees counter-clockwise.
+
+  This is useful for rotating vectors, which can help with relative directions
+  such as `:left` and `:right`.
+
+  ## Examples
+
+      iex> Point.rotate_counterclockwise(Point.new(-1, 0))
+      %Point{x: 0, y: 1}
+
+  """
+  @doc since: "0.0.1"
+  @spec rotate_counterclockwise(t) :: t
+
+  def rotate_counterclockwise(%Point{x: x, y: y}), do: %Point{x: y, y: -x}
 end
