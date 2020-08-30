@@ -341,6 +341,22 @@ defmodule StandardRulesetTest do
     end
   end
 
+  describe "next/2 when the entire board is filled" do
+    test "continues without error despite being unable to spawn a random apple on this turn" do
+      with empty_board <- Board.new(Size.new(2, 1)),
+           {:ok, board_with_snake} <- Board.spawn_snake(empty_board, "snek1", Point.new(0, 0)),
+           {:ok, full_board} <- Board.spawn_apple(board_with_snake, Point.new(1, 0))
+      do
+        assert Enum.empty?(Board.unoccupied_points(full_board))
+
+        snake_moves = [{"snek1", :east}]
+        apple_spawn_chance = 1.0
+
+        assert %Board{} = Standard.next(full_board, snake_moves, apple_spawn_chance)
+      end
+    end
+  end
+
   describe "done/1" do
     test "continues the game while there are alive snakes remaining, then terminates when only one alive snake remains" do
       with empty_board <- Board.new(Size.small),

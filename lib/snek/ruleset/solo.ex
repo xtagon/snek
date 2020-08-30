@@ -15,10 +15,18 @@ defmodule Snek.Ruleset.Solo do
   alias Snek.Ruleset.Standard
 
   @impl Snek.Ruleset
-  def init(board_size, snake_ids), do: Standard.init(board_size, snake_ids)
+  def init(board_size, snake_ids) do
+    Standard.init(board_size, snake_ids)
+  end
 
   @impl Snek.Ruleset
-  def next(board, snake_moves), do: Standard.next(board, snake_moves)
+  def next(board, snake_moves, apple_spawn_chance) do
+    Standard.next(board, snake_moves, apple_spawn_chance)
+  end
+
+  def next(board, snake_moves) do
+    Standard.next(board, snake_moves)
+  end
 
   @impl Snek.Ruleset
   def done?(board) do

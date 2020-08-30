@@ -33,13 +33,13 @@ defmodule Snek.Ruleset.Standard do
   end
 
   @impl Snek.Ruleset
-  def next(board, snake_moves) do
+  def next(board, snake_moves, apple_spawn_chance \\ @apple_spawn_chance) do
     board
     |> Board.move_snakes(snake_moves)
     |> Board.reduce_snake_healths
     |> Board.maybe_eliminate_snakes
     |> Board.maybe_feed_snakes
-    |> maybe_spawn_apple
+    |> maybe_spawn_apple(apple_spawn_chance)
   end
 
   @impl Snek.Ruleset
@@ -150,13 +150,19 @@ defmodule Snek.Ruleset.Standard do
     Board.spawn_apples(board, random_apples)
   end
 
-  defp maybe_spawn_apple(board) do
-    if Enum.empty?(board.apples) || :random.uniform <= @apple_spawn_chance do
-      new_apple = Board.unoccupied_points(board)
-      |> Enum.sort
-      |> Enum.random
+  defp maybe_spawn_apple(board, apple_spawn_chance) do
+    if Enum.empty?(board.apples) || :random.uniform <= apple_spawn_chance do
+      unoccupied_points = Board.unoccupied_points(board)
 
-      Board.spawn_apple_unchecked(board, new_apple)
+      if Enum.any?(unoccupied_points) do
+        new_apple = unoccupied_points
+        |> Enum.sort
+        |> Enum.random
+
+        Board.spawn_apple_unchecked(board, new_apple)
+      else
+        board
+      end
     else
       board
     end

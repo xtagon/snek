@@ -34,7 +34,8 @@ defmodule Snek.Ruleset do
   @doc since: "0.0.1"
   @callback next(
     board :: Board.t,
-    snake_moves :: list({Snake.id, valid_move})
+    snake_moves :: list({Snake.id, valid_move}),
+    apple_spawn_chance :: float
   ) :: Board.t
 
   @doc """
