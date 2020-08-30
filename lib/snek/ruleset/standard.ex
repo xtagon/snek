@@ -1,6 +1,6 @@
 defmodule Snek.Ruleset.Standard do
   @moduledoc """
-  The standard rulset, based on the official Battlesnake rules.
+  The standard ruleset, based on the official Battlesnake rules.
 
   Effort is made to keep this implementation compatible with Battlesnake's
   official rules, so that it may be used for simulating game turns. If there is
