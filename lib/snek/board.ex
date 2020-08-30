@@ -826,6 +826,31 @@ defmodule Snek.Board do
   end
 
   @doc """
+  Returns a list of all even points on the board, alternating like a
+  checkerboard.
+
+  ## Examples
+
+      iex> Board.new(Board.Size.new(3, 3)) |> Board.all_even_points
+      [
+        %Board.Point{x: 0, y: 0},
+        %Board.Point{x: 0, y: 2},
+        %Board.Point{x: 1, y: 1},
+        %Board.Point{x: 2, y: 0},
+        %Board.Point{x: 2, y: 2}
+      ]
+
+  """
+  @doc since: "0.0.1"
+  @spec all_even_points(t) :: list(Point.t)
+
+  def all_even_points(board) do
+    board
+    |> all_points
+    |> Enum.filter(&Point.even?/1)
+  end
+
+  @doc """
   Returns a list of all unoccupied points on the board.
 
   ## Examples
@@ -847,6 +872,28 @@ defmodule Snek.Board do
     board
     |> all_points()
     |> Enum.reject(&(occupied?(board, &1)))
+  end
+
+  @doc """
+  Returns a list of all occupied points on the board.
+
+  ## Examples
+
+      iex> apple = Board.Point.new(0, 1)
+      iex> {:ok, board} = Board.new(Board.Size.new(2, 2)) |> Board.spawn_apple(apple)
+      iex> Board.occupied_points(board)
+      [
+        %Board.Point{x: 0, y: 1}
+      ]
+
+  """
+  @doc since: "0.0.1"
+  @spec occupied_points(t) :: list(Point.t)
+
+  def occupied_points(board) do
+    board
+    |> all_points()
+    |> Enum.filter(&(occupied?(board, &1)))
   end
 
   @doc """

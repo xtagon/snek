@@ -266,13 +266,12 @@ defmodule Snek.Board.Point do
   determine if a point is a null vector.
 
   ## Examples
-  #
+
       iex> Point.zero?(Point.new(0, 0))
       true
 
       iex> Point.zero?(Point.new(0, 1))
       false
-
 
   """
   @doc since: "0.0.1"
@@ -280,4 +279,54 @@ defmodule Snek.Board.Point do
 
   def zero?(%Point{x: 0, y: 0}), do: true
   def zero?(%Point{}), do: false
+
+  @doc """
+  Returns true if and only if this point falls on an even square for an board,
+  alternating like a checkerboard.
+
+  ## Examples
+
+      iex> Point.even?(Point.new(0, 0))
+      true
+
+      iex> Point.even?(Point.new(0, 1))
+      false
+
+      iex> Point.even?(Point.new(0, 2))
+      true
+
+      iex> Point.even?(Point.new(1, 0))
+      false
+
+      iex> Point.even?(Point.new(1, 1))
+      true
+
+      iex> Point.even?(Point.new(1, 2))
+      false
+
+  """
+  @doc since: "0.0.1"
+  @spec even?(t) :: boolean
+
+  def even?(%Point{x: x, y: y}) do
+    rem(x + y, 2) == 0
+  end
+
+  @doc """
+  Returns the Manhattan distance between two points.
+
+  ## Examples
+
+      iex> Point.manhattan_distance(Point.new(0, 0), Point.new(1, 2))
+      3
+
+  """
+  @doc since: "0.0.1"
+  @spec manhattan_distance(t, t) :: integer
+
+  def manhattan_distance(point_a, point_b)
+
+  def manhattan_distance(%Point{x: x1, y: y1}, %Point{x: x2, y: y2}) do
+    abs(x1 - x2) + abs(y1 - y2)
+  end
 end

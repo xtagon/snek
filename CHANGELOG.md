@@ -11,6 +11,7 @@ adheres to [Semantic Versioning][semver].
 
 - A `Snek.Board` module (and submodules) for representing board positions.
 - A `Snek.Ruleset` behaviour module for implementing variations of game rules.
+- A `Snek.Ruleset.Standard` module implementing the Battlesnake Standard rules.
 
 [Unreleased]: https://github.com/xtagon/snek/tree/edge
 

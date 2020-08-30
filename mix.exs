@@ -45,7 +45,8 @@ defmodule Snek.MixProject do
     [
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.10", only: :test},
+      {:stream_data, "~> 0.1", only: [:dev, :test]}
     ]
   end
 end
