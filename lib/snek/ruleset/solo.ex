@@ -2,6 +2,10 @@ defmodule Snek.Ruleset.Solo do
   @moduledoc """
   The solo ruleset, based on the official Battlesnake solo rules.
 
+  Solo rules are the same as `Snek.Ruleset.Standard`, except standard games end
+  when there are fewer than 2 snakes remaining and solo games only end after
+  the last remaining snake is eliminated.
+
   Effort is made to keep this implementation compatible with Battlesnake's
   official rules, so that it may be used for simulating game turns. If there is
   a mistake either in the implementation or the tests/specification, please
