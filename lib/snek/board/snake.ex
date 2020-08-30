@@ -127,6 +127,16 @@ defmodule Snek.Board.Snake do
         body: [Snek.Board.Point.new(3, 1), Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1)]
       }
 
+      iex> body = [Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "mysnek", state: :alive, health: 100, body: body}
+      iex> snake |> Snake.move(:east) |> Snake.move(:left) |> Snake.move(:right)
+      %Snake{
+        id: "mysnek",
+        state: :alive,
+        health: 100,
+        body: [Snek.Board.Point.new(3, 0), Snek.Board.Point.new(2, 0), Snek.Board.Point.new(2, 1)]
+      }
+
   """
   @doc since: "0.0.1"
 
