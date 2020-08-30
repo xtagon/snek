@@ -14,19 +14,11 @@ defmodule Snek.Ruleset.Solo do
   alias Snek.Board
   alias Snek.Ruleset.Standard
 
-  @impl Snek.Ruleset
-  def init(board_size, snake_ids) do
-    Standard.init(board_size, snake_ids)
-  end
-
-  @impl Snek.Ruleset
-  def next(board, snake_moves, apple_spawn_chance) do
-    Standard.next(board, snake_moves, apple_spawn_chance)
-  end
-
-  def next(board, snake_moves) do
-    Standard.next(board, snake_moves)
-  end
+  # coveralls-ignore-start
+  defdelegate init(board_size, snake_ids), to: Standard
+  defdelegate next(board, snake_moves), to: Standard
+  defdelegate next(board, snake_moves, apple_spawn_chance), to: Standard
+  # coveralls-ignore-stop
 
   @impl Snek.Ruleset
   def done?(board) do
