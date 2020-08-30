@@ -83,6 +83,14 @@ defmodule StandardRulesetTest do
       end
     end
 
+    property "all snakes start off as alive (not eliminated)", context do
+      check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
+        assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
+
+        assert Enum.all?(board.snakes, &Snake.alive?/1)
+      end
+    end
+
     property "spawns at least one apple", context do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
@@ -164,6 +172,14 @@ defmodule StandardRulesetTest do
         assert Enum.all?(board.snakes, fn snake ->
           length(Enum.uniq(snake.body)) == 1
         end)
+      end
+    end
+
+    property "all snakes start off as alive (not eliminated)", context do
+      check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
+        assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
+
+        assert Enum.all?(board.snakes, &Snake.alive?/1)
       end
     end
 
