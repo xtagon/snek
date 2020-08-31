@@ -226,7 +226,7 @@ defmodule Snek.Board.Snake do
       nil
 
   """
-  @doc since: "0.1.0-dev"
+  @doc since: "0.2.0"
   @spec step(t, Point.direction | snake_move) :: Point.t
 
   def step(%Snake{body: [head, neck | _rest]}, :forward) when head != neck do
