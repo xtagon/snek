@@ -91,8 +91,9 @@ defmodule Snek.Board.Snake do
 
   If the direction given is `nil`, or not a valid direction in which to move,
   the snake will be moved in the `:forward` direction. If the snake does not
-  have both head and neck body parts, the snake will default to moving `:north`
-  instead, as in that case the last moved direction cannot be extrapolated.
+  have both head and neck body parts, or the head and neck are at teh same
+  position, the snake will default to moving `:north` instead, as in that case
+  the last moved direction cannot be extrapolated.
 
   Returns the modified snake.
 
@@ -154,19 +155,12 @@ defmodule Snek.Board.Snake do
     slither(snake, Point.step(head, direction))
   end
 
-  def move(%Snake{body: [head, neck | _rest]} = snake, :left) when head != neck do
-    vector = Point.difference(head, neck) |> Point.rotate_counterclockwise
-    slither(snake, Point.sum(head, vector))
+  def move(%Snake{body: [head, neck | _rest]} = snake, direction) when direction in [:forward, :left, :right] and head != neck do
+    slither(snake, step(snake, direction))
   end
 
-  def move(%Snake{body: [head, neck | _rest]} = snake, :right) when head != neck do
-    vector = Point.difference(head, neck) |> Point.rotate_clockwise
-    slither(snake, Point.sum(head, vector))
-  end
-
-  def move(%Snake{body: [head, neck | _rest]} = snake, _direction) when head != neck do
-    vector = Point.difference(head, neck)
-    slither(snake, Point.sum(head, vector))
+  def move(%Snake{body: [head, neck | _rest]} = snake, nil) when head != neck do
+    slither(snake, step(snake, :forward))
   end
 
   def move(%Snake{body: [head | _rest]} = snake, _direction) do
@@ -177,6 +171,88 @@ defmodule Snek.Board.Snake do
     new_body = [new_head | Enum.drop(snake.body, -1)]
     %Snake{snake | body: new_body}
   end
+
+  @doc """
+  Returns the point that is one step toward a given direction from this snake's
+  perspective.
+
+  If the snake has no body parts, `nil` is returned instead of a point.
+
+  If the direction given is `:left`, `:right`, or `:forward` then the point
+  returned will be in that direction relative to the snake's last moved
+  direction. If the snake does not have both head and neck body parts, or the
+  head and neck are at the same position, then `nil` will be returned instead
+  of a point, as in that case the last moved direction cannot be extrapolated.
+
+  ## Examples
+
+      iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
+      iex> Snake.step(snake, :north)
+      %Snek.Board.Point{x: 2, y: 0}
+
+      iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
+      iex> Snake.step(snake, :left)
+      %Snek.Board.Point{x: 2, y: 0}
+
+      iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
+      iex> Snake.step(snake, :east)
+      %Snek.Board.Point{x: 3, y: 1}
+
+      iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
+      iex> Snake.step(snake, :forward)
+      %Snek.Board.Point{x: 3, y: 1}
+
+      iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
+      iex> Snake.step(snake, :right)
+      %Snek.Board.Point{x: 2, y: 2}
+
+      iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
+      iex> Snake.step(snake, :south)
+      %Snek.Board.Point{x: 2, y: 2}
+
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 0, body: []}
+      iex> Snake.step(snake, :south)
+      nil
+
+      iex> body = [Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 100, body: body}
+      iex> Snake.step(snake, :forward)
+      nil
+
+  """
+  @doc since: "0.1.0-dev"
+  @spec step(t, Point.direction | snake_move) :: Point.t
+
+  def step(%Snake{body: [head, neck | _rest]}, :forward) when head != neck do
+    vector = Point.difference(head, neck)
+    Point.sum(head, vector)
+  end
+
+  def step(%Snake{body: [head, neck | _rest]}, :left) when head != neck do
+    vector = Point.difference(head, neck) |> Point.rotate_counterclockwise
+    Point.sum(head, vector)
+  end
+
+  def step(%Snake{body: [head, neck | _rest]}, :right) when head != neck do
+    vector = Point.difference(head, neck) |> Point.rotate_clockwise
+    Point.sum(head, vector)
+  end
+
+  def step(_snake, direction) when direction in [:forward, :left, :right] do
+    nil
+  end
+
+  def step(%Snake{body: [head | _rest]}, direction) when not is_nil(head) do
+    Point.step(head, direction)
+  end
+
+  def step(_snake, _direction), do: nil
 
   @doc """
   Decrements the snake's health by 1 point.

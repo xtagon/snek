@@ -7,6 +7,11 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+### Added
+
+- A `Snek.Board.Snake.step/2` function for finding points relative to a snake's
+- last moved direction, but without moving the snake.
+
 ## [0.1.0] - 2020-08-30
 
 ### Added
