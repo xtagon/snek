@@ -52,7 +52,7 @@ defmodule Snek.MixProject do
     ]
   end
 
-  def package() do
+  def package do
     [
       # These are the default files included in the package
       files: ~w(
@@ -63,8 +63,6 @@ defmodule Snek.MixProject do
         README.md
         lib
         mix.exs
-        priv
-        src
       ),
       licenses: ["MIT"],
       links: %{

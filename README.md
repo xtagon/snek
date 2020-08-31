@@ -95,4 +95,4 @@ This project is released under the terms of the [MIT License](LICENSE.txt).
 [battlesnake]: https://play.battlesnake.com/
 [slack]: https://battlesnake.slack.com/
 [semver]: https://semver.org/
-[hexdocs]: https://hexdocs.pm/snek
+[hexdocs]: https://hexdocs.pm/snek/
