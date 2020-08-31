@@ -4,7 +4,9 @@ defmodule Snek.MixProject do
   def project do
     [
       app: :snek,
-      version: "0.0.1",
+      version: "0.1.0",
+      description: "A framework for simulating Battlesnake-compatible game rules in Elixir.",
+      package: package(),
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -47,6 +49,26 @@ defmodule Snek.MixProject do
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:stream_data, "~> 0.1", only: [:dev, :test]}
+    ]
+  end
+
+  def package do
+    [
+      # These are the default files included in the package
+      files: ~w(
+        .credo.exs
+        .formatter.exs
+        CHANGELOG.md
+        LICENSE.txt
+        README.md
+        lib
+        mix.exs
+      ),
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => "https://github.com/xtagon/snek",
+        "Battlesnake" => "https://play.battlesnake.com/"
+      }
     ]
   end
 end

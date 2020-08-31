@@ -5,7 +5,7 @@ defmodule Snek.Board.Snake do
   You may also refer to it as a "snake on a plane", as the joke
   goes in the Battlesnake community. 😎
   """
-  @moduledoc since: "0.0.1"
+  @moduledoc since: "0.1.0"
 
   alias __MODULE__
   alias Snek.Board.Point
@@ -13,13 +13,13 @@ defmodule Snek.Board.Snake do
   @typedoc """
   A unique ID to differentiate between snakes on a board
   """
-  @typedoc since: "0.0.1"
+  @typedoc since: "0.1.0"
   @type id :: any
 
   @typedoc """
   A valid direction for a snake to move according to the game rules.
   """
-  @typedoc since: "0.0.1"
+  @typedoc since: "0.1.0"
   @type snake_move :: :north | :south | :east | :west | :forward | :left | :right
 
   @typedoc """
@@ -28,7 +28,7 @@ defmodule Snek.Board.Snake do
   If eliminated, the reason is encoded. If the elimination was caused by an
   opponent, the opponent's snake ID is also specified.
   """
-  @typedoc since: "0.0.1"
+  @typedoc since: "0.1.0"
   @type state :: :alive
   | {:eliminated, :starvation}
   | {:eliminated, :out_of_bounds}
@@ -39,7 +39,7 @@ defmodule Snek.Board.Snake do
   @typedoc """
   A snake on a board.
   """
-  @typedoc since: "0.0.1"
+  @typedoc since: "0.1.0"
   @type t :: %Snake{
     id: any,
     state: state,
@@ -69,7 +69,7 @@ defmodule Snek.Board.Snake do
       nil
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
 
   @spec head(t) :: Point.t | nil
 
@@ -138,7 +138,7 @@ defmodule Snek.Board.Snake do
       }
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
 
   @spec move(t, snake_move | nil) :: t
 
@@ -191,7 +191,7 @@ defmodule Snek.Board.Snake do
       99
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
 
   @spec hurt(t) :: t
 
@@ -226,7 +226,7 @@ defmodule Snek.Board.Snake do
       }
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
 
   @spec feed(t, non_neg_integer) :: t
 
@@ -269,7 +269,7 @@ defmodule Snek.Board.Snake do
       true
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
 
   @spec grow(t) :: t
 
@@ -300,7 +300,7 @@ defmodule Snek.Board.Snake do
       false
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
 
   @spec alive?(t) :: boolean
 
@@ -325,7 +325,7 @@ defmodule Snek.Board.Snake do
 
   """
 
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
 
   @spec eliminated?(t) :: boolean
 

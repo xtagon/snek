@@ -7,7 +7,7 @@ defmodule Snek.Ruleset.Standard do
   a mistake either in the implementation or the tests/specification, please
   report it as a bug.
   """
-  @moduledoc since: "0.0.1"
+  @moduledoc since: "0.1.0"
 
   @behaviour Snek.Ruleset
 
@@ -16,9 +16,6 @@ defmodule Snek.Ruleset.Standard do
   alias Snek.Board
   alias Snek.Board.{Point, Size, Snake}
 
-  @spec init(Board.Size.t, MapSet.t(Snake.id)) :: {:ok, Board.t} | {:error, atom}
-
-  @impl Snek.Ruleset
   def init(board_size, snake_ids) do
     empty_board = Board.new(board_size)
     snake_ids = Enum.to_list(snake_ids)
@@ -32,7 +29,6 @@ defmodule Snek.Ruleset.Standard do
     end
   end
 
-  @impl Snek.Ruleset
   def next(board, snake_moves, apple_spawn_chance \\ @apple_spawn_chance) do
     board
     |> Board.move_snakes(snake_moves)
@@ -42,7 +38,6 @@ defmodule Snek.Ruleset.Standard do
     |> maybe_spawn_apple(apple_spawn_chance)
   end
 
-  @impl Snek.Ruleset
   def done?(board) do
     Board.alive_snakes_remaining(board) <= 1
   end

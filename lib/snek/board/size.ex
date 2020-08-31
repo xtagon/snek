@@ -11,7 +11,7 @@ defmodule Snek.Board.Size do
   `small/0`, `medium/0`, and `large/0`. These suggestions are based on the
   default board sizes in Battlesnake.
   """
-  @moduledoc since: "0.0.1"
+  @moduledoc since: "0.1.0"
 
   alias __MODULE__
 
@@ -27,7 +27,7 @@ defmodule Snek.Board.Size do
   @doc """
   Returns a board size of the specified width and height.
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec new(non_neg_integer(), non_neg_integer()) :: t
 
   def new(width, height) when is_integer(width) and is_integer(height) do
@@ -43,7 +43,7 @@ defmodule Snek.Board.Size do
       %Size{width: 7, height: 7}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec small :: t
 
   def small, do: %Size{width: 7, height: 7}
@@ -57,7 +57,7 @@ defmodule Snek.Board.Size do
       %Size{width: 11, height: 11}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec medium :: t
 
   def medium, do: %Size{width: 11, height: 11}
@@ -71,7 +71,7 @@ defmodule Snek.Board.Size do
       %Size{width: 19, height: 19}
 
   """
-  @doc since: "0.0.1"
+  @doc since: "0.1.0"
   @spec large :: t
 
   def large, do: %Size{width: 19, height: 19}
