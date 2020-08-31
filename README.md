@@ -30,7 +30,7 @@ end
 
 ## Documentation
 
-Documentation can be found [here at Hex.pm](hexdocs) or generated from the
+Documentation can be found [here at Hex.pm][hexdocs] or generated from the
 source code using `mix docs`.
 
 ## Examples

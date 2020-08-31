@@ -15,16 +15,16 @@ defmodule Snek.Ruleset.Solo do
 
   @behaviour Snek.Ruleset
 
+  @apple_spawn_chance 0.15
+
   alias Snek.Board
   alias Snek.Ruleset.Standard
 
   # coveralls-ignore-start
   defdelegate init(board_size, snake_ids), to: Standard
-  defdelegate next(board, snake_moves), to: Standard
-  defdelegate next(board, snake_moves, apple_spawn_chance), to: Standard
+  defdelegate next(board, snake_moves, apple_spawn_chance \\ @apple_spawn_chance), to: Standard
   # coveralls-ignore-stop
 
-  @impl Snek.Ruleset
   def done?(board) do
     Board.alive_snakes_remaining(board) <= 0
   end
