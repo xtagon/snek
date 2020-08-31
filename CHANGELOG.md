@@ -16,8 +16,8 @@ adheres to [Semantic Versioning][semver].
 - A `Snek.Ruleset.Standard` module implementing the Battlesnake Standard rules.
 - A `Snek.Ruleset.Solo` module implementing the Battlesnake Solo rules.
 
-[Unreleased]: https://github.com/xtagon/snek/compare/v0.0.1...edge
-[0.1.0]: https://github.com/olivierlacan/keep-a-changelog/releases/tag/v0.1.0
+[Unreleased]: https://github.com/xtagon/snek/compare/v0.1.0...edge
+[0.1.0]: https://github.com/xtagon/snek/releases/tag/v0.1.0
 
 [keepachangelog]: https://keepachangelog.com/en/1.0.0/
 [semver]: https://semver.org/spec/v2.0.0.html
