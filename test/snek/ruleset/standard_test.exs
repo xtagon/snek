@@ -357,6 +357,94 @@ defmodule StandardRulesetTest do
     end
   end
 
+  # Added for compatibility with this change to the Battlesnake rules:
+  #
+  # https://github.com/BattlesnakeOfficial/rules/commit/a342f87ed6c18f16d3d0fc099d94d047e31d4611
+  #
+  describe "next/2 when a snake eats food on their very last turn before starving" do
+    setup do
+      snake_length = 3
+      snake_health = 3
+      food_spawn_chance = 0.0
+
+      empty_board = Board.new(Size.medium)
+
+      {:ok, board_with_snake} = Board.spawn_snake(empty_board, "snek1", Point.new(1, 1), snake_length, snake_health)
+      {:ok, board0} = Board.spawn_apple(board_with_snake, Point.new(4, 1))
+
+      repeat_snake_moves = [{"snek1", :east}]
+
+      board1 = Standard.next(board0, repeat_snake_moves, food_spawn_chance)
+      board2 = Standard.next(board1, repeat_snake_moves, food_spawn_chance)
+      board3 = Standard.next(board2, repeat_snake_moves, food_spawn_chance)
+
+      snake = Enum.find(board3.snakes, &(&1.id == "snek1"))
+
+      %{snake: snake}
+    end
+
+    test "stays alive instead of starving", %{snake: snake} do
+      assert snake.state == :alive
+    end
+
+    test "regains full health instead of starving", %{snake: snake} do
+      assert snake.health == 100
+    end
+
+    test "grows instead of starving", %{snake: snake} do
+      assert length(snake.body) == 4
+    end
+  end
+
+  # Added for compatibility with this change to the Battlesnake rules:
+  #
+  # https://github.com/BattlesnakeOfficial/rules/commit/a342f87ed6c18f16d3d0fc099d94d047e31d4611
+  #
+  describe "next/2 when two snakes eat the same food during a head-to-head collision with each other" do
+    setup do
+      snake_length = 3
+      snake_health = 3
+      food_spawn_chance = 0.0
+
+      apple = Point.new(4, 1)
+
+      empty_board = Board.new(Size.medium)
+
+      {:ok, board_with_1_snake} = Board.spawn_snake(empty_board, "snek1", Point.new(1, 1), snake_length, snake_health)
+      {:ok, board_with_2_snakes} = Board.spawn_snake(board_with_1_snake, "snek2", Point.new(7, 1), snake_length, snake_health)
+      {:ok, board0} = Board.spawn_apple(board_with_2_snakes, apple)
+
+      repeat_snake_moves = [{"snek1", :east}, {"snek2", :west}]
+
+      board1 = Standard.next(board0, repeat_snake_moves, food_spawn_chance)
+      board2 = Standard.next(board1, repeat_snake_moves, food_spawn_chance)
+      board3 = Standard.next(board2, repeat_snake_moves, food_spawn_chance)
+
+      %{board: board3, apple: apple}
+    end
+
+    test "removes the food", %{board: board, apple: apple} do
+      assert Board.occupied_by_apple?(board, apple) == false
+    end
+
+    test "both snakes are eliminated from the collision", %{board: %{snakes: [snake1, snake2]}} do
+      assert snake1.state == {:eliminated, :head_to_head, snake2.id}
+      assert snake2.state == {:eliminated, :head_to_head, snake1.id}
+    end
+
+    test "both snakes regain full health instead of starving", %{board: %{snakes: snakes}} do
+      for snake <- snakes do
+        assert snake.health == 100
+      end
+    end
+
+    test "both snakes grow instead of starving", %{board: %{snakes: snakes}} do
+      for snake <- snakes do
+        assert length(snake.body) == 4
+      end
+    end
+  end
+
   describe "done/1" do
     test "continues the game while there are alive snakes remaining, then terminates when only one alive snake remains" do
       with empty_board <- Board.new(Size.small),

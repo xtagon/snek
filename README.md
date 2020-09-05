@@ -23,7 +23,7 @@ Add `snek` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:snek, "~> 0.2.0"}
+    {:snek, "~> 0.3.0"}
   ]
 end
 ```
