@@ -7,6 +7,15 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+### Changed
+
+- In the `Snek.Ruleset.Standard` rules, snakes eating on their
+  last turn will survive now. Previously they would be eliminated from
+  starvation despite the food being eaten. This change also makes it so that
+  head-to-head collisions on food still remove the food. This ensures
+  compatibility with [this change in the official Battlesnake
+  rules.](https://github.com/BattlesnakeOfficial/rules/commit/a342f87ed6c18f16d3d0fc099d94d047e31d4611)
+
 ## [0.2.0] - 2020-08-30
 
 ### Added

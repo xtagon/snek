@@ -33,9 +33,9 @@ defmodule Snek.Ruleset.Standard do
     board
     |> Board.move_snakes(snake_moves)
     |> Board.reduce_snake_healths
-    |> Board.maybe_eliminate_snakes
     |> Board.maybe_feed_snakes
     |> maybe_spawn_apple(apple_spawn_chance)
+    |> Board.maybe_eliminate_snakes
   end
 
   def done?(board) do
