@@ -440,7 +440,7 @@ defmodule Snek.Board do
 
   """
   @doc since: "0.1.0"
-  @spec move_snakes(t, list({Snake.id, Snake.snake_move | nil})) :: t
+  @spec move_snake(t, Snake.id, Snake.snake_move | nil) :: t
 
   def move_snake(board, snake_id, direction) do
     next_snakes = Enum.map(board.snakes, fn snake ->

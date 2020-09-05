@@ -19,6 +19,10 @@ there is a new official change to the rules that has not been corrected, please
 
 ## [Unreleased]
 
+### Fixed
+
+- Corrected typespec for `Snek.Board.move_snake/3`.
+
 ## [0.3.0] - 2020-09-05
 
 ### Changed
