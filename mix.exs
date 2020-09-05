@@ -4,7 +4,7 @@ defmodule Snek.MixProject do
   def project do
     [
       app: :snek,
-      version: "0.2.0",
+      version: "0.3.0",
       description: "A framework for simulating Battlesnake-compatible game rules in Elixir.",
       package: package(),
       elixir: "~> 1.10",
