@@ -20,7 +20,7 @@ defmodule Snek.Board.Snake do
   A valid direction for a snake to move according to the game rules.
   """
   @typedoc since: "0.1.0"
-  @type snake_move :: :north | :south | :east | :west | :forward | :left | :right
+  @type snake_move :: :north | :south | :east | :west | :forward | :backward | :left | :right
 
   @typedoc """
   Whether a snake is currently alive, or has been eliminated.
@@ -86,14 +86,17 @@ defmodule Snek.Board.Snake do
   If the snake is already eliminated or the snake does not have any body parts,
   no move will be applied and the snake will remain unchanged.
 
-  If the direction given is `:left`, `:right`, or `:forward` then the snake is
-  moved in that direction relative to the snake's last moved direction.
+  If the direction given is `:left`, `:right`, `:forward` or `:backward`, then
+  the snake is moved in that direction relative to the snake's last moved
+  direction.
 
   If the direction given is `nil`, or not a valid direction in which to move,
   the snake will be moved in the `:forward` direction. If the snake does not
   have both head and neck body parts, or the head and neck are at teh same
   position, the snake will default to moving `:north` instead, as in that case
   the last moved direction cannot be extrapolated.
+
+  If the snake is already eliminated it will not be moved.
 
   Returns the modified snake.
 
@@ -155,7 +158,7 @@ defmodule Snek.Board.Snake do
     slither(snake, Point.step(head, direction))
   end
 
-  def move(%Snake{body: [head, neck | _rest]} = snake, direction) when direction in [:forward, :left, :right] and head != neck do
+  def move(%Snake{body: [head, neck | _rest]} = snake, direction) when direction in [:forward, :backward, :left, :right] and head != neck do
     slither(snake, step(snake, direction))
   end
 
@@ -178,11 +181,12 @@ defmodule Snek.Board.Snake do
 
   If the snake has no body parts, `nil` is returned instead of a point.
 
-  If the direction given is `:left`, `:right`, or `:forward` then the point
-  returned will be in that direction relative to the snake's last moved
-  direction. If the snake does not have both head and neck body parts, or the
-  head and neck are at the same position, then `nil` will be returned instead
-  of a point, as in that case the last moved direction cannot be extrapolated.
+  If the direction given is `:left`, `:right`, `:forward`, or `:backward` then
+  the point returned will be in that direction relative to the snake's last
+  moved direction. If the snake does not have both head and neck body parts, or
+  the head and neck are at the same position, then `nil` will be returned
+  instead of a point, as in that case the last moved direction cannot be
+  extrapolated.
 
   ## Examples
 
@@ -216,6 +220,16 @@ defmodule Snek.Board.Snake do
       iex> Snake.step(snake, :south)
       %Snek.Board.Point{x: 2, y: 2}
 
+      iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
+      iex> Snake.step(snake, :backward)
+      %Snek.Board.Point{x: 1, y: 1}
+
+      iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
+      iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
+      iex> Snake.step(snake, :west)
+      %Snek.Board.Point{x: 1, y: 1}
+
       iex> snake = %Snake{id: "snek0", state: :alive, health: 0, body: []}
       iex> Snake.step(snake, :south)
       nil
@@ -234,6 +248,11 @@ defmodule Snek.Board.Snake do
     Point.sum(head, vector)
   end
 
+  def step(%Snake{body: [head, neck | _rest]}, :backward) when head != neck do
+    vector = Point.difference(neck, head)
+    Point.sum(head, vector)
+  end
+
   def step(%Snake{body: [head, neck | _rest]}, :left) when head != neck do
     vector = Point.difference(head, neck) |> Point.rotate_counterclockwise
     Point.sum(head, vector)
@@ -244,7 +263,7 @@ defmodule Snek.Board.Snake do
     Point.sum(head, vector)
   end
 
-  def step(_snake, direction) when direction in [:forward, :left, :right] do
+  def step(_snake, direction) when direction in [:forward, :backward, :left, :right] do
     nil
   end
 

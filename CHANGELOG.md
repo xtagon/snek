@@ -19,9 +19,23 @@ there is a new official change to the rules that has not been corrected, please
 
 ## [Unreleased]
 
+### Added
+
+- Added `:backward` as a valid direction (relative to the snake's orientation)
+  for `Snake.step/2` and `Snake.move/2`, which complements `:forward` and can
+  be used for a snake to throw a game by running into their own neck.
+
 ### Fixed
 
+- In the `Snek.Ruleset.Standard` rulest, snakes will not be eliminated by
+  colliding with snakes who are already eliminated. This was always supposed to
+  be the case, but some collisions with dead snakes were still being detected.
 - Corrected typespec for `Snek.Board.move_snake/3`.
+
+### Changed
+
+- Updated the documentation to clarify that snakes will not be moved if they
+  are already eliminated.
 
 ## [0.3.0] - 2020-09-05
 

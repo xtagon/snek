@@ -313,6 +313,39 @@ defmodule StandardRulesetTest do
         end)
       end
     end
+
+    property "no eliminated snakes have moved or changed (no zombies)", context do
+      check all board_size <- context.board_sizes,
+        {:ok, board0} <- StreamData.constant(Standard.init(board_size, @fixed_8_snake_ids))
+      do
+        # Must move in some direction first before there is a "backward"
+        # direction into the snake's own neck
+        initial_moves = Enum.map(@fixed_8_snake_ids, fn snake_id ->
+          {snake_id, :north}
+        end)
+
+        board1 = Standard.next(board0, initial_moves)
+
+        # Move snakes backward into their own necks
+        throwing_moves = Enum.map(board1.snakes, fn snake ->
+          backward = Enum.find([:north, :south, :east, :west], fn move ->
+            Snake.step(snake, move) == Snake.step(snake, :backward)
+          end)
+
+          {snake.id, backward}
+        end)
+
+        board2 = Standard.next(board1, throwing_moves)
+
+        for snake <- board2.snakes do
+          assert {:eliminated, :self_collision} == snake.state
+        end
+
+        for [previous_snake, next_snake] <- Enum.zip(board1.snakes, board2.snakes) do
+          next_snake == previous_snake
+        end
+      end
+    end
   end
 
   describe "next/2 for standard board sizes with 8 snakes after the first 2 turns" do
