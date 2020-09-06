@@ -30,6 +30,12 @@ there is a new official change to the rules that has not been corrected, please
 - In the `Snek.Ruleset.Standard` ruleset, snakes will not be eliminated by
   colliding with snakes who are already eliminated. This was always supposed to
   be the case, but some collisions with dead snakes were still being detected.
+- In the `Snek.Ruleset.Standard` ruleset, all alive snakes will move, even if a
+  move is not specified for every snake. Snakes without a move specified will
+  default to moving `:north` if it is the first move, otherwise continue in the
+  same direction they were already going. Previously, snakes without a move
+  specified did not move at all, which was not the correct behavior and could
+  cause invalid self-collision eliminations.
 - Corrected typespec for `Snek.Board.move_snake/3`.
 
 ### Changed
