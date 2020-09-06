@@ -24,8 +24,6 @@ defmodule Snek.Ruleset.Standard do
          {:ok, board_with_snakes_and_apples} <- spawn_apples(board_with_snakes)
     do
       {:ok, board_with_snakes_and_apples}
-    else
-      {:error, reason} -> {:error, reason}
     end
   end
 
