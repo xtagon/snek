@@ -260,7 +260,7 @@ defmodule StandardRulesetTest do
       end
     end
 
-    property "all alive snakes have moved their heads", context do
+    property "all alive snakes with moves to play have moved their heads", context do
       check all board_size <- context.board_sizes,
         {:ok, board0} <- StreamData.constant(Standard.init(board_size, @fixed_8_snake_ids)),
         moves1 <- StreamData.list_of(StreamData.member_of(@snake_move_directions), length: 8),
@@ -311,6 +311,39 @@ defmodule StandardRulesetTest do
 
           Snake.alive?(previous_snake)
         end)
+      end
+    end
+
+    property "no eliminated snakes have moved or changed (no zombies)", context do
+      check all board_size <- context.board_sizes,
+        {:ok, board0} <- StreamData.constant(Standard.init(board_size, @fixed_8_snake_ids))
+      do
+        # Must move in some direction first before there is a "backward"
+        # direction into the snake's own neck
+        initial_moves = Enum.map(@fixed_8_snake_ids, fn snake_id ->
+          {snake_id, :north}
+        end)
+
+        board1 = Standard.next(board0, initial_moves)
+
+        # Move snakes backward into their own necks
+        throwing_moves = Enum.map(board1.snakes, fn snake ->
+          backward = Enum.find([:north, :south, :east, :west], fn move ->
+            Snake.step(snake, move) == Snake.step(snake, :backward)
+          end)
+
+          {snake.id, backward}
+        end)
+
+        board2 = Standard.next(board1, throwing_moves)
+
+        for snake <- board2.snakes do
+          assert {:eliminated, :self_collision} == snake.state
+        end
+
+        for [previous_snake, next_snake] <- Enum.zip(board1.snakes, board2.snakes) do
+          assert next_snake == previous_snake
+        end
       end
     end
   end
@@ -441,6 +474,23 @@ defmodule StandardRulesetTest do
     test "both snakes grow instead of starving", %{board: %{snakes: snakes}} do
       for snake <- snakes do
         assert length(snake.body) == 4
+      end
+    end
+  end
+
+  describe "next/2 when a snake move is not provided for some alive snake" do
+    test "all alive snakes are moved including the one without a specified move" do
+      snake_ids = ["s1", "s2", "s3"]
+      {:ok, board0} = Standard.init(Board.Size.large, snake_ids)
+      snake_moves = [{"s1", :south}, {"s3", :south}]
+      board1 = Standard.next(board0, snake_moves)
+
+      alive_snakes = Enum.filter(board1.snakes, &Snake.alive?/1)
+
+      assert length(alive_snakes) == 3
+
+      for [previous_snake, next_snake] <- Enum.zip(board0.snakes, board1.snakes) do
+        assert Snake.head(next_snake) != Snake.head(previous_snake)
       end
     end
   end

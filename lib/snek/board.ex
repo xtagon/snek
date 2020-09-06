@@ -373,6 +373,8 @@ defmodule Snek.Board do
   the last moved direction. If the snake has not yet moved at all since
   spawning, it will default to moving `:north`.
 
+  Snakes that have already been eliminated will not be moved.
+
   Returns a board with all moves applied.
 
   ## Examples
@@ -421,6 +423,8 @@ defmodule Snek.Board do
   the last moved direction. If the snake has not yet moved at all since
   spawning, it will default to moving `:north`.
 
+  A snake that is already eliminated will not be moved.
+
   Returns a board with this snake's move applied.
 
   ## Examples
@@ -440,7 +444,7 @@ defmodule Snek.Board do
 
   """
   @doc since: "0.1.0"
-  @spec move_snakes(t, list({Snake.id, Snake.snake_move | nil})) :: t
+  @spec move_snake(t, Snake.id, Snake.snake_move | nil) :: t
 
   def move_snake(board, snake_id, direction) do
     next_snakes = Enum.map(board.snakes, fn snake ->
@@ -502,6 +506,10 @@ defmodule Snek.Board do
   Eliminations are decided by `maybe_eliminate_snake/3` for each snake, giving
   priority to longer snakes in in ambiguous collisions.
 
+  Snakes that are already eliminated will remain unchanged, and snakes will not
+  be eliminated by colliding with another snake that has previously been
+  eliminated itself.
+
   ## Examples
 
       iex> apple = Board.Point.new(1, 4)
@@ -525,7 +533,9 @@ defmodule Snek.Board do
   @spec maybe_eliminate_snakes(t) :: t
 
   def maybe_eliminate_snakes(board) do
-    snakes_by_length_descending = Enum.sort_by(board.snakes, fn snake ->
+    alive_snakes = Enum.filter(board.snakes, &Snake.alive?/1)
+
+    snakes_by_length_descending = Enum.sort_by(alive_snakes, fn snake ->
       {length(snake.body), snake.id}
     end)
 
@@ -547,6 +557,10 @@ defmodule Snek.Board do
   snakes such that ambiguous collisions will be tied by snakes which appear
   first in the list. For example, if longer snakes should be considered first,
   pass a list of all snakes ordered by their respective lengths descending.
+
+  Snakes that are already eliminated will remain unchanged, and snakes will not
+  be eliminated by colliding with another snake that has previously been
+  eliminated itself.
 
   # Examples
 
