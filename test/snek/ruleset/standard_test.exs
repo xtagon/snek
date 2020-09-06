@@ -342,7 +342,7 @@ defmodule StandardRulesetTest do
         end
 
         for [previous_snake, next_snake] <- Enum.zip(board1.snakes, board2.snakes) do
-          next_snake == previous_snake
+          assert next_snake == previous_snake
         end
       end
     end
