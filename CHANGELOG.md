@@ -22,7 +22,7 @@ there is a new official change to the rules that has not been corrected, please
 ### Added
 
 - Added `:backward` as a valid direction (relative to the snake's orientation)
-  for `Snake.step/2` and `Snake.move/2`, which complements `:forward` and can
+  for `Snek.Board.Snake.step/2` and `Snek.Board.Snake.move/2`, which complements `:forward` and can
   be used for a snake to throw a game by running into their own neck.
 
 ### Fixed
