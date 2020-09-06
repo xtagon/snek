@@ -27,7 +27,7 @@ there is a new official change to the rules that has not been corrected, please
 
 ### Fixed
 
-- In the `Snek.Ruleset.Standard` rulest, snakes will not be eliminated by
+- In the `Snek.Ruleset.Standard` ruleset, snakes will not be eliminated by
   colliding with snakes who are already eliminated. This was always supposed to
   be the case, but some collisions with dead snakes were still being detected.
 - Corrected typespec for `Snek.Board.move_snake/3`.
