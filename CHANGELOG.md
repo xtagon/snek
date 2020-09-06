@@ -19,6 +19,8 @@ there is a new official change to the rules that has not been corrected, please
 
 ## [Unreleased]
 
+## [0.4.0] - 2020-09-05
+
 ### Added
 
 - Added `:backward` as a valid direction (relative to the snake's orientation)
@@ -70,7 +72,8 @@ there is a new official change to the rules that has not been corrected, please
 - A `Snek.Ruleset.Standard` module implementing the Battlesnake Standard rules.
 - A `Snek.Ruleset.Solo` module implementing the Battlesnake Solo rules.
 
-[Unreleased]: https://github.com/xtagon/snek/compare/v0.3.0...edge
+[Unreleased]: https://github.com/xtagon/snek/compare/v0.4.0...edge
+[0.4.0]: https://github.com/xtagon/snek/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/xtagon/snek/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/xtagon/snek/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/xtagon/snek/releases/tag/v0.1.0
