@@ -80,9 +80,9 @@ defmodule StandardRulesetTest do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
 
-        assert Enum.all?(board.snakes, fn snake ->
-          length(snake.body) == 3
-        end)
+        for snake <- board.snakes do
+          assert length(snake.body) == 3
+        end
       end
     end
 
@@ -90,9 +90,9 @@ defmodule StandardRulesetTest do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
 
-        assert Enum.all?(board.snakes, fn snake ->
-          length(Enum.uniq(snake.body)) == 1
-        end)
+        for snake <- board.snakes do
+          assert length(Enum.uniq(snake.body)) == 1
+        end
       end
     end
 
@@ -100,7 +100,9 @@ defmodule StandardRulesetTest do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
 
-        assert Enum.all?(board.snakes, &Snake.alive?/1)
+        for snake <- board.snakes do
+          assert Snake.alive?(snake)
+        end
       end
     end
 
@@ -108,9 +110,9 @@ defmodule StandardRulesetTest do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
 
-        assert Enum.all?(board.snakes, fn snake ->
-          Snake.head(snake) |> Point.even?
-        end)
+        for snake <- board.snakes do
+          assert Snake.head(snake) |> Point.even?
+        end
       end
     end
 
@@ -130,12 +132,13 @@ defmodule StandardRulesetTest do
         assert Board.occupied_by_apple?(board, center)
         assert length(board.apples) == 1 + length(board.snakes)
 
-        assert Enum.all?(board.snakes, fn snake ->
+        for snake <- board.snakes do
           snake_head = Snake.head(snake)
-          Enum.any?(board.apples, fn apple ->
+
+          assert Enum.any?(board.apples, fn apple ->
             Point.manhattan_distance(snake_head, apple) == 2
           end)
-        end)
+        end
       end
     end
 
@@ -182,9 +185,9 @@ defmodule StandardRulesetTest do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
 
-        assert Enum.all?(board.snakes, fn snake ->
-          length(snake.body) == 3
-        end)
+        for snake <- board.snakes do
+          assert length(snake.body) == 3
+        end
       end
     end
 
@@ -192,9 +195,9 @@ defmodule StandardRulesetTest do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
 
-        assert Enum.all?(board.snakes, fn snake ->
-          length(Enum.uniq(snake.body)) == 1
-        end)
+        for snake <- board.snakes do
+          assert length(Enum.uniq(snake.body)) == 1
+        end
       end
     end
 
@@ -202,7 +205,9 @@ defmodule StandardRulesetTest do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
 
-        assert Enum.all?(board.snakes, &Snake.alive?/1)
+        for snake <- board.snakes do
+          assert Snake.alive?(snake)
+        end
       end
     end
 
@@ -210,9 +215,9 @@ defmodule StandardRulesetTest do
       check all board_size <- context.board_sizes, snake_ids <- context.snake_ids do
         assert {:ok, %Board{} = board} = Standard.init(board_size, snake_ids)
 
-        assert Enum.all?(board.snakes, fn snake ->
-          Snake.head(snake) |> Point.even?
-        end)
+        for snake <- board.snakes do
+          assert Snake.head(snake) |> Point.even?
+        end
       end
     end
 
@@ -254,9 +259,9 @@ defmodule StandardRulesetTest do
       do
         alive_snakes = Enum.filter(board1.snakes, &Snake.alive?/1)
 
-        assert Enum.all?(alive_snakes, fn snake ->
-          length(snake.body) >= 3
-        end)
+        for snake <- alive_snakes do
+          assert length(snake.body) >= 3
+        end
       end
     end
 
@@ -269,11 +274,11 @@ defmodule StandardRulesetTest do
       do
         alive_snakes = Enum.filter(board1.snakes, &Snake.alive?/1)
 
-        assert Enum.all?(alive_snakes, fn snake ->
+        for snake <- alive_snakes do
           previous_snake = Enum.find(board0.snakes, &(&1.id == snake.id))
 
-          Snake.head(snake) != Snake.head(previous_snake)
-        end)
+          assert Snake.head(snake) != Snake.head(previous_snake)
+        end
       end
     end
 
@@ -284,7 +289,7 @@ defmodule StandardRulesetTest do
         snake_moves1 <- StreamData.constant(Enum.zip(@fixed_8_snake_ids, moves1)),
         board1 <- StreamData.constant(Standard.next(board0, snake_moves1))
       do
-        assert Enum.all?(board1.snakes, fn snake ->
+        for snake <- board1.snakes do
           [_head | rest] = snake.body
           middle = Enum.uniq(rest)
 
@@ -292,8 +297,8 @@ defmodule StandardRulesetTest do
           [_previous_head | previous_rest] = previous_snake.body
           previous_middle = Enum.uniq(previous_rest)
 
-          middle == previous_middle
-        end)
+          assert middle == previous_middle
+        end
       end
     end
 
@@ -306,11 +311,11 @@ defmodule StandardRulesetTest do
       do
         alive_snakes = Enum.filter(board1.snakes, &Snake.alive?/1)
 
-        assert Enum.all?(alive_snakes, fn snake ->
+        for snake <- alive_snakes do
           previous_snake = Enum.find(board0.snakes, &(&1.id == snake.id))
 
-          Snake.alive?(previous_snake)
-        end)
+          assert Snake.alive?(previous_snake)
+        end
       end
     end
 
@@ -365,11 +370,11 @@ defmodule StandardRulesetTest do
         |> Enum.filter(&Snake.eliminated?/1)
         |> Enum.map(fn snake -> Enum.find(board2.snakes, &(&1.id == snake.id)) end)
 
-        assert Enum.all?(snakes_on_board2_eliminated_on_board1, fn snake ->
+        for snake <- snakes_on_board2_eliminated_on_board1 do
           previous_snake = Enum.find(board1.snakes, &(&1.id == snake.id))
 
-          snake.body == previous_snake.body
-        end)
+          assert snake.body == previous_snake.body
+        end
       end
     end
   end
