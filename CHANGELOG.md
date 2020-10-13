@@ -19,6 +19,11 @@ there is a new official change to the rules that has not been corrected, please
 
 ## [Unreleased]
 
+### Fixed
+
+- Setting `apply_spawn_chance` to `0.0` was still spawning an apple on turns
+  where there were no apples on the board.
+
 ## [0.4.0] - 2020-09-05
 
 ### Added

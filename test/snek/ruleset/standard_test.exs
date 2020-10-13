@@ -434,6 +434,28 @@ defmodule StandardRulesetTest do
     end
   end
 
+  describe "next/2 when the board has no food and apple spawn chance is set to zero" do
+    setup do
+      snake_length = 3
+      snake_health = 3
+      food_spawn_chance = 0.0
+
+      empty_board = Board.new(Size.medium)
+
+      {:ok, board0} = Board.spawn_snake(empty_board, "snek1", Point.new(1, 1), snake_length, snake_health)
+
+      snake_moves = [{"snek1", :east}]
+
+      board1 = Standard.next(board0, snake_moves, food_spawn_chance)
+
+      %{apples: board1.apples}
+    end
+
+    test "does not spawn any apples", %{apples: apples} do
+      assert Enum.empty?(apples)
+    end
+  end
+
   # Added for compatibility with this change to the Battlesnake rules:
   #
   # https://github.com/BattlesnakeOfficial/rules/commit/a342f87ed6c18f16d3d0fc099d94d047e31d4611

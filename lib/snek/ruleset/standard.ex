@@ -161,6 +161,10 @@ defmodule Snek.Ruleset.Standard do
     Board.spawn_apples(board, random_apples)
   end
 
+  defp maybe_spawn_apple(board, 0.0 = _apple_spawn_chance) do
+    board
+  end
+
   defp maybe_spawn_apple(board, apple_spawn_chance) do
     if Enum.empty?(board.apples) || :random.uniform <= apple_spawn_chance do
       unoccupied_points = Board.unoccupied_points(board)
