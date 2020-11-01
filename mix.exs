@@ -50,7 +50,7 @@ defmodule Snek.MixProject do
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:stream_data, "~> 0.1", only: [:dev, :test]},
-      {:benchee, "~> 1.0"}
+      {:benchee, "~> 1.0", only: [:dev, :test]}
     ]
   end
 
