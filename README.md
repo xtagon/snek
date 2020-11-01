@@ -87,6 +87,7 @@ The following Mix tasks are available to assist in development:
 - `mix test`
 - `mix coveralls`
 - `mix credo --strict`
+- `mix bench`
 
 ## License
 

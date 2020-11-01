@@ -10,6 +10,7 @@ defmodule Snek.MixProject do
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      aliases: aliases(),
 
       # Docs
       name: "Snek",
@@ -48,7 +49,14 @@ defmodule Snek.MixProject do
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
-      {:stream_data, "~> 0.1", only: [:dev, :test]}
+      {:stream_data, "~> 0.1", only: [:dev, :test]},
+      {:benchee, "~> 1.0"}
+    ]
+  end
+
+  defp aliases do
+    [
+      bench: "run bench.exs"
     ]
   end
 
