@@ -41,7 +41,7 @@ defmodule Snek.Ruleset.Standard do
   end
 
   defp all_snake_moves(board, snake_moves) do
-    snake_ids_without_moves = Enum.map(snake_moves, fn {snake_id, _move} ->
+    snake_ids_with_moves = Enum.map(snake_moves, fn {snake_id, _move} ->
       snake_id
     end)
 
@@ -49,7 +49,7 @@ defmodule Snek.Ruleset.Standard do
     |> Enum.filter(&Snake.alive?/1)
     |> Enum.map(&(&1.id))
 
-    alive_snake_ids_without_moves = alive_snake_ids -- snake_ids_without_moves
+    alive_snake_ids_without_moves = alive_snake_ids -- snake_ids_with_moves
 
     default_snake_moves = Enum.map(alive_snake_ids_without_moves, fn snake_id ->
       {snake_id, nil}
