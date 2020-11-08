@@ -4,18 +4,13 @@ defmodule Snek.Board.Point do
   """
   @moduledoc since: "0.1.0"
 
-  alias __MODULE__
-
   @typedoc """
   A point on a board.
 
   May be relative or absolute.
   """
   @typedoc since: "0.1.0"
-  @type t :: %Point{
-    x: x,
-    y: y
-  }
+  @type t :: {x, y}
 
   @typedoc """
   A point's X coordinate.
@@ -51,30 +46,26 @@ defmodule Snek.Board.Point do
   @typedoc since: "0.1.0"
   @type direction :: :up | :down | :left | :right
 
-  @enforce_keys [:x, :y]
-
-  defstruct [:x, :y]
-
   @doc """
   Returns a new point at the given X and Y coordinates.
 
   ## Examples
 
       iex> Point.new(0, 0)
-      %Point{x: 0, y: 0}
+      {0, 0}
 
       iex> Point.new(3, 1)
-      %Point{x: 3, y: 1}
+      {3, 1}
 
       iex> Point.new(-2, 0)
-      %Point{x: -2, y: 0}
+      {-2, 0}
 
   """
   @doc since: "0.1.0"
   @spec new(x, y) :: t
 
   def new(x, y) when is_integer(x) and is_integer(y) do
-    %Point{x: x, y: y}
+    {x, y}
   end
 
   @doc """
@@ -84,28 +75,28 @@ defmodule Snek.Board.Point do
   ## Examples
 
       iex> Point.new(5, 5) |> Point.step(:up)
-      %Point{x: 5, y: 4}
+      {5, 4}
 
       iex> Point.new(5, 5) |> Point.step(:down)
-      %Point{x: 5, y: 6}
+      {5, 6}
 
       iex> Point.new(5, 5) |> Point.step(:right)
-      %Point{x: 6, y: 5}
+      {6, 5}
 
       iex> Point.new(5, 5) |> Point.step(:left)
-      %Point{x: 4, y: 5}
+      {4, 5}
 
       iex> Point.new(5, 5) |> Point.step(:up) |> Point.step(:left)
-      %Point{x: 4, y: 4}
+      {4, 4}
 
       iex> Point.new(5, 5) |> Point.step(:up) |> Point.step(:right)
-      %Point{x: 6, y: 4}
+      {6, 4}
 
       iex> Point.new(5, 5) |> Point.step(:down) |> Point.step(:right)
-      %Point{x: 6, y: 6}
+      {6, 6}
 
       iex> Point.new(5, 5) |> Point.step(:down) |> Point.step(:left)
-      %Point{x: 4, y: 6}
+      {4, 6}
 
   """
   @doc since: "0.1.0"
@@ -113,20 +104,20 @@ defmodule Snek.Board.Point do
 
   def step(origin, direction)
 
-  def step(%Point{x: x, y: y}, :up) when is_integer(x) and is_integer(y) do
-    %Point{x: x, y: y - 1}
+  def step({x, y}, :up) when is_integer(x) and is_integer(y) do
+    {x, y - 1}
   end
 
-  def step(%Point{x: x, y: y}, :down) when is_integer(x) and is_integer(y) do
-    %Point{x: x, y: y + 1}
+  def step({x, y}, :down) when is_integer(x) and is_integer(y) do
+    {x, y + 1}
   end
 
-  def step(%Point{x: x, y: y}, :right) when is_integer(x) and is_integer(y) do
-    %Point{x: x + 1, y: y}
+  def step({x, y}, :right) when is_integer(x) and is_integer(y) do
+    {x + 1, y}
   end
 
-  def step(%Point{x: x, y: y}, :left) when is_integer(x) and is_integer(y) do
-    %Point{x: x - 1, y: y}
+  def step({x, y}, :left) when is_integer(x) and is_integer(y) do
+    {x - 1, y}
   end
 
   @doc """
@@ -136,18 +127,18 @@ defmodule Snek.Board.Point do
 
       iex> Point.adjascent_neighbors(Point.new(1, 1))
       [
-        %Point{x: 1, y: 0},
-        %Point{x: 1, y: 2},
-        %Point{x: 2, y: 1},
-        %Point{x: 0, y: 1}
+        {1, 0},
+        {1, 2},
+        {2, 1},
+        {0, 1}
       ]
 
       iex> Point.adjascent_neighbors(Point.new(0, 0))
       [
-        %Point{x: 0, y: -1},
-        %Point{x: 0, y: 1},
-        %Point{x: 1, y: 0},
-        %Point{x: -1, y: 0}
+        {0, -1},
+        {0, 1},
+        {1, 0},
+        {-1, 0}
       ]
 
   """
@@ -170,18 +161,18 @@ defmodule Snek.Board.Point do
 
       iex> Point.diagonal_neighbors(Point.new(1, 1))
       [
-        %Point{x: 0, y: 0},
-        %Point{x: 2, y: 0},
-        %Point{x: 2, y: 2},
-        %Point{x: 0, y: 2}
+        {0, 0},
+        {2, 0},
+        {2, 2},
+        {0, 2}
       ]
 
       iex> Point.diagonal_neighbors(Point.new(0, 0))
       [
-        %Point{x: -1, y: -1},
-        %Point{x: 1, y: -1},
-        %Point{x: 1, y: 1},
-        %Point{x: -1, y: 1}
+        {-1, -1},
+        {1, -1},
+        {1, 1},
+        {-1, 1}
       ]
 
   """
@@ -207,19 +198,19 @@ defmodule Snek.Board.Point do
   ## Examples
 
       iex> Point.difference(Point.new(1, 2), Point.new(1, 3))
-      %Point{x: 0, y: -1}
+      {0, -1}
 
       iex> Point.difference(Point.new(4, 4), Point.new(5, 4))
-      %Point{x: -1, y: 0}
+      {-1, 0}
 
   """
   @doc since: "0.1.0"
   @spec difference(t, t) :: t
 
-  def difference(%Point{x: x1, y: y1}, %Point{x: x2, y: y2}) do
-    %Point{
-      x: x1 - x2,
-      y: y1 - y2
+  def difference({x1, y1}, {x2, y2}) do
+    {
+      x1 - x2,
+      y1 - y2
     }
   end
 
@@ -231,19 +222,19 @@ defmodule Snek.Board.Point do
   ## Examples
 
       iex> Point.sum(Point.new(1, 2), Point.new(1, 0))
-      %Point{x: 2, y: 2}
+      {2, 2}
 
       iex> Point.sum(Point.new(4, 4), Point.new(-1, 1))
-      %Point{x: 3, y: 5}
+      {3, 5}
 
   """
   @doc since: "0.1.0"
   @spec sum(t, t) :: t
 
-  def sum(%Point{x: x1, y: y1}, %Point{x: x2, y: y2}) do
-    %Point{
-      x: x1 + x2,
-      y: y1 + y2
+  def sum({x1, y1}, {x2, y2}) do
+    {
+      x1 + x2,
+      y1 + y2
     }
   end
 
@@ -263,8 +254,8 @@ defmodule Snek.Board.Point do
   @doc since: "0.1.0"
   @spec zero?(t) :: boolean
 
-  def zero?(%Point{x: 0, y: 0}), do: true
-  def zero?(%Point{}), do: false
+  def zero?({0, 0}), do: true
+  def zero?({x, y}) when is_integer(x) and is_integer(y), do: false
 
   @doc """
   Returns true if and only if this point falls on an even square for an board,
@@ -294,7 +285,7 @@ defmodule Snek.Board.Point do
   @doc since: "0.1.0"
   @spec even?(t) :: boolean
 
-  def even?(%Point{x: x, y: y}) do
+  def even?({x, y}) do
     rem(x + y, 2) == 0
   end
 
@@ -312,7 +303,7 @@ defmodule Snek.Board.Point do
 
   def manhattan_distance(point_a, point_b)
 
-  def manhattan_distance(%Point{x: x1, y: y1}, %Point{x: x2, y: y2}) do
+  def manhattan_distance({x1, y1}, {x2, y2}) do
     abs(x1 - x2) + abs(y1 - y2)
   end
 
@@ -324,13 +315,13 @@ defmodule Snek.Board.Point do
   ## Examples
 
       iex> Point.rotate_clockwise(Point.new(0, 1))
-      %Point{x: -1, y: 0}
+      {-1, 0}
 
   """
   @doc since: "0.1.0"
   @spec rotate_clockwise(t) :: t
 
-  def rotate_clockwise(%Point{x: x, y: y}), do: %Point{x: -y, y: x}
+  def rotate_clockwise({x, y}), do: {-y, x}
 
   @doc """
   Rotates a point 90 degrees counter-clockwise.
@@ -340,11 +331,11 @@ defmodule Snek.Board.Point do
   ## Examples
 
       iex> Point.rotate_counterclockwise(Point.new(-1, 0))
-      %Point{x: 0, y: 1}
+      {0, 1}
 
   """
   @doc since: "0.1.0"
   @spec rotate_counterclockwise(t) :: t
 
-  def rotate_counterclockwise(%Point{x: x, y: y}), do: %Point{x: y, y: -x}
+  def rotate_counterclockwise({x, y}), do: {y, -x}
 end

@@ -96,7 +96,7 @@ defmodule Snek.SmallStaticCycle do
     end
   end
 
-  defp get(%Board{snakes: [%Snake{body: [%Point{x: x, y: y} | _]} | _]}) do
+  defp get(%Board{snakes: [%Snake{body: [{x, y} | _]} | _]}) do
     @cycle[{x, y}]
   end
 end

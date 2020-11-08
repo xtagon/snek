@@ -98,7 +98,7 @@ defmodule Snek.Board do
       iex> {:ok, board} = Board.new(Board.Size.new(3, 3)) |> Board.spawn_apple_at_center()
       iex> board
       %Board{
-        apples: [%Board.Point{x: 1, y: 1}],
+        apples: [{1, 1}],
         size: %Board.Size{height: 3, width: 3},
         snakes: []
       }
@@ -126,7 +126,7 @@ defmodule Snek.Board do
       iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(Board.Point.new(1, 1))
       iex> board
       %Board{
-        apples: [%Board.Point{x: 1, y: 1}],
+        apples: [{1, 1}],
         size: %Board.Size{height: 7, width: 7},
         snakes: []
       }
@@ -163,7 +163,7 @@ defmodule Snek.Board do
       iex> board = Board.new(Board.Size.small) |> Board.spawn_apple_unchecked(Board.Point.new(1, 1))
       iex> board
       %Board{
-        apples: [%Board.Point{x: 1, y: 1}],
+        apples: [{1, 1}],
         size: %Board.Size{height: 7, width: 7},
         snakes: []
       }
@@ -189,8 +189,8 @@ defmodule Snek.Board do
       iex> board
       %Board{
         apples: [
-          %Board.Point{x: 1, y: 1},
-          %Snek.Board.Point{x: 1, y: 2}
+          {1, 1},
+          {1, 2}
         ],
         size: %Snek.Board.Size{height: 7, width: 7},
         snakes: []
@@ -224,10 +224,10 @@ defmodule Snek.Board do
   ## Examples
 
       iex> Board.new(Board.Size.new(3, 3)) |> Board.center_point()
-      %Board.Point{x: 1, y: 1}
+      {1, 1}
 
       iex> Board.new(Board.Size.new(8, 8)) |> Board.center_point()
-      %Board.Point{x: 3, y: 3}
+      {3, 3}
 
   """
   @doc since: "0.1.0"
@@ -236,7 +236,7 @@ defmodule Snek.Board do
   def center_point(%Board{size: %Size{width: width, height: height}}) do
     x = div(width - 1, 2)
     y = div(height - 1, 2)
-    %Point{x: x, y: y}
+    Point.new(x, y)
   end
 
   @doc """
@@ -251,7 +251,7 @@ defmodule Snek.Board do
       iex> board.snakes
       [
         %Board.Snake{
-          body: [%Board.Point{x: 3, y: 3}, %Board.Point{x: 3, y: 3}, %Board.Point{x: 3, y: 3}],
+          body: [{3, 3}, {3, 3}, {3, 3}],
           state: :alive,
           health: 100,
           id: "mysnek"
@@ -284,13 +284,13 @@ defmodule Snek.Board do
       iex> board.snakes
       [
         %Board.Snake{
-          body: [%Board.Point{x: 5, y: 5}, %Board.Point{x: 5, y: 5}, %Board.Point{x: 5, y: 5}],
+          body: [{5, 5}, {5, 5}, {5, 5}],
           state: :alive,
           health: 100,
           id: "snek2"
         },
         %Board.Snake{
-          body: [%Board.Point{x: 1, y: 1}, %Board.Point{x: 1, y: 1}, %Board.Point{x: 1, y: 1}],
+          body: [{1, 1}, {1, 1}, {1, 1}],
           state: :alive,
           health: 100,
           id: "snek1"
@@ -330,7 +330,7 @@ defmodule Snek.Board do
       iex> board.snakes
       [
         %Board.Snake{
-          body: [%Board.Point{x: 1, y: 1}, %Board.Point{x: 1, y: 1}, %Board.Point{x: 1, y: 1}],
+          body: [{1, 1}, {1, 1}, {1, 1}],
           state: :alive,
           health: 100,
           id: "mysnek"
@@ -385,13 +385,13 @@ defmodule Snek.Board do
       iex> board2.snakes
       [
         %Board.Snake{
-          body: [%Board.Point{x: 5, y: 4}, %Board.Point{x: 5, y: 5}, %Board.Point{x: 5, y: 5}],
+          body: [{5, 4}, {5, 5}, {5, 5}],
           state: :alive,
           health: 100,
           id: "snek1"
         },
         %Board.Snake{
-          body: [%Board.Point{x: 2, y: 1}, %Board.Point{x: 1, y: 1}, %Board.Point{x: 1, y: 1}],
+          body: [{2, 1}, {1, 1}, {1, 1}],
           state: :alive,
           health: 100,
           id: "snek0"
@@ -435,7 +435,7 @@ defmodule Snek.Board do
       iex> board2.snakes
       [
         %Board.Snake{
-          body: [%Board.Point{x: 2, y: 1}, %Board.Point{x: 1, y: 1}, %Board.Point{x: 1, y: 1}],
+          body: [{2, 1}, {1, 1}, {1, 1}],
           state: :alive,
           health: 100,
           id: "snek0"
@@ -820,10 +820,10 @@ defmodule Snek.Board do
 
       iex> Board.new(Board.Size.new(2, 2)) |> Board.all_points
       [
-        %Board.Point{x: 0, y: 0},
-        %Board.Point{x: 0, y: 1},
-        %Board.Point{x: 1, y: 0},
-        %Board.Point{x: 1, y: 1}
+        {0, 0},
+        {0, 1},
+        {1, 0},
+        {1, 1}
       ]
 
   """
@@ -835,7 +835,7 @@ defmodule Snek.Board do
     ys = 0..board.size.height-1
 
     for x <- xs, y <- ys do
-      %Point{x: x, y: y}
+      Point.new(x, y)
     end
   end
 
@@ -847,11 +847,11 @@ defmodule Snek.Board do
 
       iex> Board.new(Board.Size.new(3, 3)) |> Board.all_even_points
       [
-        %Board.Point{x: 0, y: 0},
-        %Board.Point{x: 0, y: 2},
-        %Board.Point{x: 1, y: 1},
-        %Board.Point{x: 2, y: 0},
-        %Board.Point{x: 2, y: 2}
+        {0, 0},
+        {0, 2},
+        {1, 1},
+        {2, 0},
+        {2, 2}
       ]
 
   """
@@ -873,9 +873,9 @@ defmodule Snek.Board do
       iex> {:ok, board} = Board.new(Board.Size.new(2, 2)) |> Board.spawn_apple(apple)
       iex> Board.unoccupied_points(board)
       [
-        %Board.Point{x: 0, y: 0},
-        %Board.Point{x: 1, y: 0},
-        %Board.Point{x: 1, y: 1}
+        {0, 0},
+        {1, 0},
+        {1, 1}
       ]
 
   """
@@ -897,7 +897,7 @@ defmodule Snek.Board do
       iex> {:ok, board} = Board.new(Board.Size.new(2, 2)) |> Board.spawn_apple(apple)
       iex> Board.occupied_points(board)
       [
-        %Board.Point{x: 0, y: 1}
+        {0, 1}
       ]
 
   """
@@ -920,24 +920,24 @@ defmodule Snek.Board do
       iex> board = Board.new(Board.Size.small)
       iex> board |> Board.adjascent_neighbors(Board.Point.new(1, 1))
       [
-        %Board.Point{x: 1, y: 0},
-        %Board.Point{x: 1, y: 2},
-        %Board.Point{x: 2, y: 1},
-        %Board.Point{x: 0, y: 1}
+        {1, 0},
+        {1, 2},
+        {2, 1},
+        {0, 1}
       ]
 
       iex> board = Board.new(Board.Size.small)
       iex> board |> Board.adjascent_neighbors(Board.Point.new(0, 0))
       [
-        %Board.Point{x: 0, y: 1},
-        %Board.Point{x: 1, y: 0}
+        {0, 1},
+        {1, 0}
       ]
 
       iex> board = Board.new(Board.Size.new(3, 3))
       iex> board |> Board.adjascent_neighbors(Board.Point.new(2, 2))
       [
-        %Board.Point{x: 2, y: 1},
-        %Board.Point{x: 1, y: 2}
+        {2, 1},
+        {1, 2}
       ]
 
   """
@@ -962,18 +962,18 @@ defmodule Snek.Board do
       iex> board = Board.new(Board.Size.small)
       iex> board |> Board.unoccupied_adjascent_neighbors(Board.Point.new(1, 1))
       [
-        %Board.Point{x: 1, y: 0},
-        %Board.Point{x: 1, y: 2},
-        %Board.Point{x: 2, y: 1},
-        %Board.Point{x: 0, y: 1}
+        {1, 0},
+        {1, 2},
+        {2, 1},
+        {0, 1}
       ]
 
       iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(Board.Point.new(1, 2))
       iex> board |> Board.unoccupied_adjascent_neighbors(Board.Point.new(1, 1))
       [
-        %Board.Point{x: 1, y: 0},
-        %Board.Point{x: 2, y: 1},
-        %Board.Point{x: 0, y: 1}
+        {1, 0},
+        {2, 1},
+        {0, 1}
       ]
 
   """
@@ -995,19 +995,19 @@ defmodule Snek.Board do
       iex> board = Board.new(Board.Size.small)
       iex> board |> Board.diagonal_neighbors(Board.Point.new(1, 1))
       [
-        %Board.Point{x: 0, y: 0},
-        %Board.Point{x: 2, y: 0},
-        %Board.Point{x: 2, y: 2},
-        %Board.Point{x: 0, y: 2}
+        {0, 0},
+        {2, 0},
+        {2, 2},
+        {0, 2}
       ]
 
       iex> board = Board.new(Board.Size.small)
       iex> board |> Board.diagonal_neighbors(Board.Point.new(0, 0))
-      [%Board.Point{x: 1, y: 1}]
+      [{1, 1}]
 
       iex> board = Board.new(Board.Size.new(3, 3))
       iex> board |> Board.diagonal_neighbors(Board.Point.new(2, 2))
-      [%Board.Point{x: 1, y: 1}]
+      [{1, 1}]
 
   """
   @doc since: "0.1.0"
@@ -1031,18 +1031,18 @@ defmodule Snek.Board do
       iex> board = Board.new(Board.Size.small)
       iex> board |> Board.unoccupied_diagonal_neighbors(Board.Point.new(1, 1))
       [
-        %Board.Point{x: 0, y: 0},
-        %Board.Point{x: 2, y: 0},
-        %Board.Point{x: 2, y: 2},
-        %Board.Point{x: 0, y: 2}
+        {0, 0},
+        {2, 0},
+        {2, 2},
+        {0, 2}
       ]
 
       iex> {:ok, board} = Board.new(Board.Size.small) |> Board.spawn_apple(Board.Point.new(0, 0))
       iex> board |> Board.unoccupied_diagonal_neighbors(Board.Point.new(1, 1))
       [
-        %Board.Point{x: 2, y: 0},
-        %Board.Point{x: 2, y: 2},
-        %Board.Point{x: 0, y: 2}
+        {2, 0},
+        {2, 2},
+        {0, 2}
       ]
 
   """
@@ -1074,7 +1074,7 @@ defmodule Snek.Board do
   @doc since: "0.1.0"
   @spec within_bounds?(t, Point.t) :: boolean
 
-  def within_bounds?(%Board{size: %Size{width: width, height: height}}, %Point{x: x, y: y})
+  def within_bounds?(%Board{size: %Size{width: width, height: height}}, {x, y})
   when x < 0 or y < 0 or x >= width or y >= height,
   do: false
 

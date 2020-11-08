@@ -62,7 +62,7 @@ defmodule Snek.Board.Snake do
       iex> body = [Snek.Board.Point.new(1, 2), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "mysnek", state: :alive, health: 100, body: body}
       iex> Snake.head(snake)
-      %Snek.Board.Point{x: 1, y: 2}
+      {1, 2}
 
       iex> snake = %Snake{id: "mysnek", state: :alive, health: 100, body: []}
       iex> Snake.head(snake)
@@ -159,22 +159,22 @@ defmodule Snek.Board.Snake do
       iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
       iex> Snake.step(snake, :up)
-      %Snek.Board.Point{x: 2, y: 0}
+      {2, 0}
 
       iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
       iex> Snake.step(snake, :right)
-      %Snek.Board.Point{x: 3, y: 1}
+      {3, 1}
 
       iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
       iex> Snake.step(snake, :down)
-      %Snek.Board.Point{x: 2, y: 2}
+      {2, 2}
 
       iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
       iex> Snake.step(snake, :left)
-      %Snek.Board.Point{x: 1, y: 1}
+      {1, 1}
 
       iex> snake = %Snake{id: "snek0", state: :alive, health: 0, body: []}
       iex> Snake.step(snake, :down)
