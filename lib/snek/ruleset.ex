@@ -17,7 +17,7 @@ defmodule Snek.Ruleset do
   @typedoc """
   Valid moves for a snake to play.
   """
-  @type valid_move :: :north | :south | :east | :west
+  @type valid_move :: :up | :down | :left | :right
 
   @doc """
   Decide the initial board position for a new game.

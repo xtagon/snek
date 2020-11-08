@@ -49,7 +49,7 @@ defmodule Snek.Board.Point do
   A direction from a point toward its adjascent or diagonal neighbor.
   """
   @typedoc since: "0.1.0"
-  @type direction :: :north | :south | :east | :west | :northwest | :northeast | :southeast | :southwest
+  @type direction :: :up | :down | :left | :right
 
   @enforce_keys [:x, :y]
 
@@ -83,28 +83,28 @@ defmodule Snek.Board.Point do
 
   ## Examples
 
-      iex> Point.new(5, 5) |> Point.step(:north)
+      iex> Point.new(5, 5) |> Point.step(:up)
       %Point{x: 5, y: 4}
 
-      iex> Point.new(5, 5) |> Point.step(:south)
+      iex> Point.new(5, 5) |> Point.step(:down)
       %Point{x: 5, y: 6}
 
-      iex> Point.new(5, 5) |> Point.step(:east)
+      iex> Point.new(5, 5) |> Point.step(:right)
       %Point{x: 6, y: 5}
 
-      iex> Point.new(5, 5) |> Point.step(:west)
+      iex> Point.new(5, 5) |> Point.step(:left)
       %Point{x: 4, y: 5}
 
-      iex> Point.new(5, 5) |> Point.step(:northwest)
+      iex> Point.new(5, 5) |> Point.step(:up) |> Point.step(:left)
       %Point{x: 4, y: 4}
 
-      iex> Point.new(5, 5) |> Point.step(:northeast)
+      iex> Point.new(5, 5) |> Point.step(:up) |> Point.step(:right)
       %Point{x: 6, y: 4}
 
-      iex> Point.new(5, 5) |> Point.step(:southeast)
+      iex> Point.new(5, 5) |> Point.step(:down) |> Point.step(:right)
       %Point{x: 6, y: 6}
 
-      iex> Point.new(5, 5) |> Point.step(:southwest)
+      iex> Point.new(5, 5) |> Point.step(:down) |> Point.step(:left)
       %Point{x: 4, y: 6}
 
   """
@@ -113,36 +113,20 @@ defmodule Snek.Board.Point do
 
   def step(origin, direction)
 
-  def step(%Point{x: x, y: y}, :north) when is_integer(x) and is_integer(y) do
+  def step(%Point{x: x, y: y}, :up) when is_integer(x) and is_integer(y) do
     %Point{x: x, y: y - 1}
   end
 
-  def step(%Point{x: x, y: y}, :south) when is_integer(x) and is_integer(y) do
+  def step(%Point{x: x, y: y}, :down) when is_integer(x) and is_integer(y) do
     %Point{x: x, y: y + 1}
   end
 
-  def step(%Point{x: x, y: y}, :east) when is_integer(x) and is_integer(y) do
+  def step(%Point{x: x, y: y}, :right) when is_integer(x) and is_integer(y) do
     %Point{x: x + 1, y: y}
   end
 
-  def step(%Point{x: x, y: y}, :west) when is_integer(x) and is_integer(y) do
+  def step(%Point{x: x, y: y}, :left) when is_integer(x) and is_integer(y) do
     %Point{x: x - 1, y: y}
-  end
-
-  def step(%Point{x: x, y: y}, :northwest) when is_integer(x) and is_integer(y) do
-    %Point{x: x - 1, y: y - 1}
-  end
-
-  def step(%Point{x: x, y: y}, :northeast) when is_integer(x) and is_integer(y) do
-    %Point{x: x + 1, y: y - 1}
-  end
-
-  def step(%Point{x: x, y: y}, :southeast) when is_integer(x) and is_integer(y) do
-    %Point{x: x + 1, y: y + 1}
-  end
-
-  def step(%Point{x: x, y: y}, :southwest) when is_integer(x) and is_integer(y) do
-    %Point{x: x - 1, y: y + 1}
   end
 
   @doc """
@@ -172,10 +156,10 @@ defmodule Snek.Board.Point do
 
   def adjascent_neighbors(origin) do
     [
-      step(origin, :north),
-      step(origin, :south),
-      step(origin, :east),
-      step(origin, :west)
+      step(origin, :up),
+      step(origin, :down),
+      step(origin, :right),
+      step(origin, :left)
     ]
   end
 
@@ -205,11 +189,13 @@ defmodule Snek.Board.Point do
   @spec diagonal_neighbors(t) :: list(t)
 
   def diagonal_neighbors(origin) do
+    up = step(origin, :up)
+    down = step(origin, :down)
     [
-      step(origin, :northwest),
-      step(origin, :northeast),
-      step(origin, :southeast),
-      step(origin, :southwest)
+      step(up, :left),
+      step(up, :right),
+      step(down, :right),
+      step(down, :left)
     ]
   end
 
@@ -333,8 +319,7 @@ defmodule Snek.Board.Point do
   @doc """
   Rotates a point 90 degrees clockwise.
 
-  This is useful for rotating vectors, which can help with relative directions
-  such as `:left` and `:right`.
+  This is useful for rotating vectors, which can help find relative directions.
 
   ## Examples
 
@@ -350,8 +335,7 @@ defmodule Snek.Board.Point do
   @doc """
   Rotates a point 90 degrees counter-clockwise.
 
-  This is useful for rotating vectors, which can help with relative directions
-  such as `:left` and `:right`.
+  This is useful for rotating vectors, which can help find relative directions.
 
   ## Examples
 
