@@ -333,8 +333,7 @@ defmodule Snek.Board.Point do
   @doc """
   Rotates a point 90 degrees clockwise.
 
-  This is useful for rotating vectors, which can help with relative directions
-  such as `:left` and `:right`.
+  This is useful for rotating vectors, which can help find relative directions.
 
   ## Examples
 
@@ -350,8 +349,7 @@ defmodule Snek.Board.Point do
   @doc """
   Rotates a point 90 degrees counter-clockwise.
 
-  This is useful for rotating vectors, which can help with relative directions
-  such as `:left` and `:right`.
+  This is useful for rotating vectors, which can help find relative directions.
 
   ## Examples
 

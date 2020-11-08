@@ -333,8 +333,10 @@ defmodule StandardRulesetTest do
 
         # Move snakes backward into their own necks
         throwing_moves = Enum.map(board1.snakes, fn snake ->
+          [_head, neck | _] = snake.body
+
           backward = Enum.find([:north, :south, :east, :west], fn move ->
-            Snake.step(snake, move) == Snake.step(snake, :backward)
+            Snake.step(snake, move) == neck
           end)
 
           {snake.id, backward}
