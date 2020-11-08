@@ -19,17 +19,30 @@ there is a new official change to the rules that has not been corrected, please
 
 ## [Unreleased]
 
+### Added
+
+- `Snek.Board.move_snakes/2` and implementations of `c:Snek.Ruleset.next/3`
+  officially accept either a map or a list for snake moves, and the examples
+  have been changed to recommend using a map.
+
 ### Changed
+
+- 💥 **Breaking** - Directions have been renamed from `:north`,
+  `:south`, `:east`, and `:west` to `:up`, `:down`, `:right`, and `:left`
+  respectively.  This matches the directions in the official Battlesnake
+  documentation.
+
+### Removed
 
 - 💥 **Breaking** - Relative directions have been removed (i.e. `:forward`,
   `:backward`, `:left`, `:right`, `:northeast`, `:northwest`, `:southeast`,
-  `:southwest`) and normal directions have been renamed from `:north`,
-  `:south`, `:east`, and `:west` to `:up`, `:down`, `:right`, and `:left`
-  respectively.  This matches the directions in the official Battlesnake
-  documentation. Relative directions were removed to prevent confusion as
-  `:left` could otherwise be interpreted as relative, for example. It is also
+  `:southwest`) Relative directions were removed to prevent confusion as
+  `:left` could otherwise be interpreted as relative, for example, and we're
+  changing to match the official Battlesnake nomenclature. It is also
   unnecessary to have relative direction logic in the ruleset code, as snake
   moves for a turn are always expected to be one of the four legal directions.
+- Removed the `t:Snek.Ruleset.valid_move` type as it is now the same as
+  `t:Snek.Board.Snake.snake_move`.
 
 ### Fixed
 
@@ -40,11 +53,16 @@ there is a new official change to the rules that has not been corrected, please
 
 - Corrected a typo in the documentation explaining why the two arguments are
   not commutative in `Snek.Board.snake_collides_with_other_snake?/2`.
+- Clarified the behavior of `Snek.Board.move_snakes/2` and
+  `Snek.Board.move_snake/3`, specifically that it only moves alive snakes (as
+  was already the case), and that the default move is now always `:up` (not the
+  snake's previous direction).
 
 ### Performance
 
-- Improved performance of `Snek.Board.within_bounds?/2`, which improves overall
-  performance in all rulesets as it is a frequently called function.
+- Improved performance of `Snek.Board.within_bounds?/2` and
+  `Snek.Board.move_snakes/2`, which improves overall performance in all
+  rulesets as these are frequently called functions.
 
 ## [0.4.0] - 2020-09-05
 
