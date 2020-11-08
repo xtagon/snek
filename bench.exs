@@ -15,30 +15,30 @@ snake_ids_8p = MapSet.new(["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
 {:ok, board_6p} = Standard.init(Board.Size.medium, snake_ids_6p)
 {:ok, board_8p} = Standard.init(Board.Size.large, snake_ids_8p)
 
-snake_moves_2p = [
-  {"p1", :up},
-  {"p2", :down}
-]
+snake_moves_2p = %{
+  "p1" => :up,
+  "p2" => :down
+}
 
-snake_moves_6p = [
-  {"p1", :up},
-  {"p2", :down},
-  {"p3", :left},
-  {"p4", :right},
-  {"p5", :up},
-  {"p6", :down}
-]
+snake_moves_6p = %{
+  "p1" => :up,
+  "p2" => :down,
+  "p3" => :left,
+  "p4" => :right,
+  "p5" => :up,
+  "p6" => :down
+}
 
-snake_moves_8p = [
-  {"p1", :up},
-  {"p2", :down},
-  {"p3", :left},
-  {"p4", :right},
-  {"p5", :up},
-  {"p6", :down},
-  {"p7", :left},
-  {"p8", :right}
-]
+snake_moves_8p = %{
+  "p1" => :up,
+  "p2" => :down,
+  "p3" => :left,
+  "p4" => :right,
+  "p5" => :up,
+  "p6" => :down,
+  "p7" => :left,
+  "p8" => :right
+}
 
 apple_spawn_chance = 0.15
 no_apple_spawn_chance = 0.0

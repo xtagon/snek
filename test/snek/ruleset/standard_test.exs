@@ -389,7 +389,7 @@ defmodule StandardRulesetTest do
       do
         assert Enum.empty?(Board.unoccupied_points(full_board))
 
-        snake_moves = [{"snek1", :right}]
+        snake_moves = %{"snek1" => :right}
         apple_spawn_chance = 1.0
 
         assert %Board{} = Standard.next(full_board, snake_moves, apple_spawn_chance)
@@ -412,7 +412,7 @@ defmodule StandardRulesetTest do
       {:ok, board_with_snake} = Board.spawn_snake(empty_board, "snek1", Point.new(1, 1), snake_length, snake_health)
       {:ok, board0} = Board.spawn_apple(board_with_snake, Point.new(4, 1))
 
-      repeat_snake_moves = [{"snek1", :right}]
+      repeat_snake_moves = %{"snek1" => :right}
 
       board1 = Standard.next(board0, repeat_snake_moves, food_spawn_chance)
       board2 = Standard.next(board1, repeat_snake_moves, food_spawn_chance)
@@ -446,7 +446,7 @@ defmodule StandardRulesetTest do
 
       {:ok, board0} = Board.spawn_snake(empty_board, "snek1", Point.new(1, 1), snake_length, snake_health)
 
-      snake_moves = [{"snek1", :right}]
+      snake_moves = %{"snek1" => :right}
 
       board1 = Standard.next(board0, snake_moves, food_spawn_chance)
 
@@ -476,7 +476,7 @@ defmodule StandardRulesetTest do
       {:ok, board_with_2_snakes} = Board.spawn_snake(board_with_1_snake, "snek2", Point.new(7, 1), snake_length, snake_health)
       {:ok, board0} = Board.spawn_apple(board_with_2_snakes, apple)
 
-      repeat_snake_moves = [{"snek1", :right}, {"snek2", :left}]
+      repeat_snake_moves = %{"snek1" =>:right, "snek2" => :left}
 
       board1 = Standard.next(board0, repeat_snake_moves, food_spawn_chance)
       board2 = Standard.next(board1, repeat_snake_moves, food_spawn_chance)
@@ -511,7 +511,7 @@ defmodule StandardRulesetTest do
     test "all alive snakes are moved including the one without a specified move" do
       snake_ids = ["s1", "s2", "s3"]
       {:ok, board0} = Standard.init(Board.Size.large, snake_ids)
-      snake_moves = [{"s1", :down}, {"s3", :down}]
+      snake_moves = %{"s1" => :down, "s3" => :down}
       board1 = Standard.next(board0, snake_moves)
 
       alive_snakes = Enum.filter(board1.snakes, &Snake.alive?/1)

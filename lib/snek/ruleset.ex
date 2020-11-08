@@ -14,11 +14,6 @@ defmodule Snek.Ruleset do
   alias Snek.Board
   alias Board.{Size, Snake}
 
-  @typedoc """
-  Valid moves for a snake to play.
-  """
-  @type valid_move :: :up | :down | :left | :right
-
   @doc """
   Decide the initial board position for a new game.
   """
@@ -34,7 +29,7 @@ defmodule Snek.Ruleset do
   @doc since: "0.1.0"
   @callback next(
     board :: Board.t,
-    snake_moves :: list({Snake.id, valid_move}),
+    snake_moves :: %{required(Snake.id) => Snake.snake_move | nil} | list({Snake.id, Snake.snake_move | nil}),
     apple_spawn_chance :: float
   ) :: Board.t
 
