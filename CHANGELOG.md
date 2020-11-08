@@ -21,7 +21,7 @@ there is a new official change to the rules that has not been corrected, please
 
 ### Changed
 
-- :boom: *Breaking* - Relative directions have been removed (i.e. `:forward`,
+- 💥 **Breaking** - Relative directions have been removed (i.e. `:forward`,
   `:backward`, `:left`, `:right`, `:northeast`, `:northwest`, `:southeast`,
   `:southwest`) and normal directions have been renamed from `:north`,
   `:south`, `:east`, and `:west` to `:up`, `:down`, `:right`, and `:left`
