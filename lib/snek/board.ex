@@ -371,7 +371,7 @@ defmodule Snek.Board do
 
   If `nil` is provided as a move, the snake will by default continue moving in
   the last moved direction. If the snake has not yet moved at all since
-  spawning, it will default to moving `:north`.
+  spawning, it will default to moving `:up`.
 
   Snakes that have already been eliminated will not be moved.
 
@@ -381,7 +381,7 @@ defmodule Snek.Board do
 
       iex> board0 = Board.new(Board.Size.small)
       iex> {:ok, board1} = Board.spawn_snakes(board0, [{"snek0", Board.Point.new(1, 1)}, {"snek1", Board.Point.new(5, 5)}])
-      iex> board2 = Board.move_snakes(board1, [{"snek0", :east}, {"snek1", nil}])
+      iex> board2 = Board.move_snakes(board1, [{"snek0", :right}, {"snek1", nil}])
       iex> board2.snakes
       [
         %Board.Snake{
@@ -421,7 +421,7 @@ defmodule Snek.Board do
 
   If `nil` is provided as the move, the snake will by default continue moving in
   the last moved direction. If the snake has not yet moved at all since
-  spawning, it will default to moving `:north`.
+  spawning, it will default to moving `:up`.
 
   A snake that is already eliminated will not be moved.
 
@@ -431,7 +431,7 @@ defmodule Snek.Board do
 
       iex> board0 = Board.new(Board.Size.small)
       iex> {:ok, board1} = Board.spawn_snake(board0, "snek0", Board.Point.new(1, 1))
-      iex> board2 = Board.move_snake(board1, "snek0", :east)
+      iex> board2 = Board.move_snake(board1, "snek0", :right)
       iex> board2.snakes
       [
         %Board.Snake{
@@ -471,9 +471,9 @@ defmodule Snek.Board do
       iex> ids_and_heads = [{"snek0", Board.Point.new(1, 1)}, {"snek1", Board.Point.new(1, 5)}]
       iex> {:ok, board0} = Board.new(Board.Size.small) |> Board.spawn_apple(apple)
       iex> {:ok, board1} = Board.spawn_snakes(board0, ids_and_heads)
-      iex> board2 = Board.move_snakes(board1, [{"snek0", :south}, {"snek1", :north}])
+      iex> board2 = Board.move_snakes(board1, [{"snek0", :down}, {"snek1", :up}])
       iex> board3 = Board.maybe_feed_snakes(board2)
-      iex> board4 = Board.move_snakes(board3, [{"snek0", :south}, {"snek1", :north}])
+      iex> board4 = Board.move_snakes(board3, [{"snek0", :down}, {"snek1", :up}])
       iex> board5 = Board.maybe_eliminate_snakes(board4)
       iex> board6 = Board.reduce_snake_healths(board5)
       iex> snek0 = board6.snakes |> Enum.find(&(&1.id == "snek0"))
@@ -516,9 +516,9 @@ defmodule Snek.Board do
       iex> ids_and_heads = [{"snek0", Board.Point.new(1, 1)}, {"snek1", Board.Point.new(1, 5)}]
       iex> {:ok, board0} = Board.new(Board.Size.small) |> Board.spawn_apple(apple)
       iex> {:ok, board1} = Board.spawn_snakes(board0, ids_and_heads)
-      iex> board2 = Board.move_snakes(board1, [{"snek0", :south}, {"snek1", :north}])
+      iex> board2 = Board.move_snakes(board1, [{"snek0", :down}, {"snek1", :up}])
       iex> board3 = Board.maybe_feed_snakes(board2)
-      iex> board4 = Board.move_snakes(board3, [{"snek0", :south}, {"snek1", :north}])
+      iex> board4 = Board.move_snakes(board3, [{"snek0", :down}, {"snek1", :up}])
       iex> board5 = Board.maybe_eliminate_snakes(board4)
       iex> board6 = Board.reduce_snake_healths(board5)
       iex> snek0 = board6.snakes |> Enum.find(&(&1.id == "snek0"))
@@ -566,8 +566,8 @@ defmodule Snek.Board do
 
       iex> ids_and_heads = [{"snek0", Board.Point.new(1, 1)}, {"snek1", Board.Point.new(1, 3)}]
       iex> {:ok, board0} = Board.new(Board.Size.small) |> Board.spawn_snakes(ids_and_heads)
-      iex> board1 = Board.move_snakes(board0, [{"snek0", :south}, {"snek1", :east}])
-      iex> board2 = Board.move_snakes(board1, [{"snek0", :south}, {"snek1", :east}])
+      iex> board1 = Board.move_snakes(board0, [{"snek0", :down}, {"snek1", :right}])
+      iex> board2 = Board.move_snakes(board1, [{"snek0", :down}, {"snek1", :right}])
       iex> snek0 = board2.snakes |> Enum.find(&(&1.id == "snek0"))
       iex> snek0_eliminated = Board.maybe_eliminate_snake(board2, snek0, board2.snakes)
       iex> snek0_eliminated.state
@@ -646,7 +646,7 @@ defmodule Snek.Board do
       iex> ids_and_heads = [{"snek0", Board.Point.new(1, 1)}, {"snek1", Board.Point.new(1, 5)}]
       iex> {:ok, board0} = Board.new(Board.Size.small) |> Board.spawn_apple(apple)
       iex> {:ok, board1} = Board.spawn_snakes(board0, ids_and_heads)
-      iex> board2 = Board.move_snakes(board1, [{"snek0", :south}, {"snek1", :north}])
+      iex> board2 = Board.move_snakes(board1, [{"snek0", :down}, {"snek1", :up}])
       iex> board3 = Board.maybe_feed_snakes(board2)
       iex> snek0 = board3.snakes |> Enum.find(&(&1.id == "snek0"))
       iex> snek1 = board3.snakes |> Enum.find(&(&1.id == "snek1"))
@@ -659,7 +659,7 @@ defmodule Snek.Board do
       iex> ids_and_heads = [{"snek0", Board.Point.new(1, 1)}, {"snek1", Board.Point.new(1, 5)}]
       iex> {:ok, board0} = Board.new(Board.Size.small) |> Board.spawn_apple(apple)
       iex> {:ok, board1} = Board.spawn_snakes(board0, ids_and_heads)
-      iex> board2 = Board.move_snakes(board1, [{"snek0", :south}, {"snek1", :east}])
+      iex> board2 = Board.move_snakes(board1, [{"snek0", :down}, {"snek1", :right}])
       iex> board3 = Board.maybe_feed_snakes(board2)
       iex> snek0 = board3.snakes |> Enum.find(&(&1.id == "snek0"))
       iex> snek1 = board3.snakes |> Enum.find(&(&1.id == "snek1"))
@@ -1145,8 +1145,8 @@ defmodule Snek.Board do
 
       iex> ids_and_heads = [{"snek0", Board.Point.new(1, 1)}, {"snek1", Board.Point.new(1, 3)}]
       iex> {:ok, board0} = Board.new(Board.Size.small) |> Board.spawn_snakes(ids_and_heads)
-      iex> board1 = Board.move_snakes(board0, [{"snek0", :south}, {"snek1", :east}])
-      iex> board2 = Board.move_snakes(board1, [{"snek0", :south}, {"snek1", :east}])
+      iex> board1 = Board.move_snakes(board0, [{"snek0", :down}, {"snek1", :right}])
+      iex> board2 = Board.move_snakes(board1, [{"snek0", :down}, {"snek1", :right}])
       iex> snek0 = board2.snakes |> Enum.find(&(&1.id == "snek0"))
       iex> snek1 = board2.snakes |> Enum.find(&(&1.id == "snek1"))
       iex> Board.snake_collides_with_other_snake?(snek0, snek1)
@@ -1176,9 +1176,9 @@ defmodule Snek.Board do
       iex> ids_and_heads = [{"snek0", Board.Point.new(1, 1)}, {"snek1", Board.Point.new(1, 5)}]
       iex> {:ok, board0} = Board.new(Board.Size.small) |> Board.spawn_apple(apple)
       iex> {:ok, board1} = Board.spawn_snakes(board0, ids_and_heads)
-      iex> board2 = Board.move_snakes(board1, [{"snek0", :south}, {"snek1", :north}])
+      iex> board2 = Board.move_snakes(board1, [{"snek0", :down}, {"snek1", :up}])
       iex> board3 = Board.maybe_feed_snakes(board2)
-      iex> board4 = Board.move_snakes(board3, [{"snek0", :south}, {"snek1", :north}])
+      iex> board4 = Board.move_snakes(board3, [{"snek0", :down}, {"snek1", :up}])
       iex> snek0 = board4.snakes |> Enum.find(&(&1.id == "snek0"))
       iex> snek1 = board4.snakes |> Enum.find(&(&1.id == "snek1"))
       iex> Board.snake_loses_head_to_head_collision?(snek0, snek1)
@@ -1208,9 +1208,9 @@ defmodule Snek.Board do
       iex> ids_and_heads = [{"snek0", Board.Point.new(1, 1)}, {"snek1", Board.Point.new(1, 5)}]
       iex> {:ok, board0} = Board.new(Board.Size.small) |> Board.spawn_apple(apple)
       iex> {:ok, board1} = Board.spawn_snakes(board0, ids_and_heads)
-      iex> board2 = Board.move_snakes(board1, [{"snek0", :south}, {"snek1", :north}])
+      iex> board2 = Board.move_snakes(board1, [{"snek0", :down}, {"snek1", :up}])
       iex> board3 = Board.maybe_feed_snakes(board2)
-      iex> board4 = Board.move_snakes(board3, [{"snek0", :south}, {"snek1", :north}])
+      iex> board4 = Board.move_snakes(board3, [{"snek0", :down}, {"snek1", :up}])
       iex> board5 = Board.maybe_eliminate_snakes(board4)
       iex> Board.alive_snakes_remaining(board5)
       1

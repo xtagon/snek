@@ -20,7 +20,7 @@ defmodule Snek.Board.Snake do
   A valid direction for a snake to move according to the game rules.
   """
   @typedoc since: "0.1.0"
-  @type snake_move :: :north | :south | :east | :west
+  @type snake_move :: :up | :down | :left | :right
 
   @typedoc """
   Whether a snake is currently alive, or has been eliminated.
@@ -87,7 +87,7 @@ defmodule Snek.Board.Snake do
   no move will be applied and the snake will remain unchanged.
 
   If the direction given is `nil`, or not a valid direction in which to move,
-  the snake will be moved in the `:north` direction instead.
+  the snake will be moved in the `:up` direction instead.
 
   Returns the modified snake.
 
@@ -95,7 +95,7 @@ defmodule Snek.Board.Snake do
 
       iex> body = [Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "mysnek", state: :alive, health: 100, body: body}
-      iex> Snake.move(snake, :north)
+      iex> Snake.move(snake, :up)
       %Snake{
         id: "mysnek",
         state: :alive,
@@ -105,16 +105,16 @@ defmodule Snek.Board.Snake do
 
       iex> body = [Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "mysnek", state: {:eliminated, :starvation}, health: 0, body: body}
-      iex> snake == Snake.move(snake, :north)
+      iex> snake == Snake.move(snake, :up)
       true
 
       iex> snake = %Snake{id: "mysnek", state: :alive, health: 100, body: []}
-      iex> snake == Snake.move(snake, :north)
+      iex> snake == Snake.move(snake, :up)
       true
 
       iex> body = [Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "mysnek", state: :alive, health: 100, body: body}
-      iex> snake |> Snake.move(:east) |> Snake.move(nil)
+      iex> snake |> Snake.move(:right) |> Snake.move(nil)
       %Snake{
         id: "mysnek",
         state: :alive,
@@ -135,12 +135,12 @@ defmodule Snek.Board.Snake do
     snake
   end
 
-  def move(%Snake{body: [head | _rest]} = snake, direction) when direction in [:north, :south, :east, :west] do
+  def move(%Snake{body: [head | _rest]} = snake, direction) when direction in [:up, :down, :left, :right] do
     slither(snake, Point.step(head, direction))
   end
 
   def move(%Snake{body: [head | _rest]} = snake, _direction) do
-    slither(snake, Point.step(head, :north))
+    slither(snake, Point.step(head, :up))
   end
 
   defp slither(snake, new_head) do
@@ -158,26 +158,26 @@ defmodule Snek.Board.Snake do
 
       iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
-      iex> Snake.step(snake, :north)
+      iex> Snake.step(snake, :up)
       %Snek.Board.Point{x: 2, y: 0}
 
       iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
-      iex> Snake.step(snake, :east)
+      iex> Snake.step(snake, :right)
       %Snek.Board.Point{x: 3, y: 1}
 
       iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
-      iex> Snake.step(snake, :south)
+      iex> Snake.step(snake, :down)
       %Snek.Board.Point{x: 2, y: 2}
 
       iex> body = [Snek.Board.Point.new(2, 1), Snek.Board.Point.new(1, 1), Snek.Board.Point.new(1, 1)]
       iex> snake = %Snake{id: "snek0", state: :alive, health: 99, body: body}
-      iex> Snake.step(snake, :west)
+      iex> Snake.step(snake, :left)
       %Snek.Board.Point{x: 1, y: 1}
 
       iex> snake = %Snake{id: "snek0", state: :alive, health: 0, body: []}
-      iex> Snake.step(snake, :south)
+      iex> Snake.step(snake, :down)
       nil
 
   """

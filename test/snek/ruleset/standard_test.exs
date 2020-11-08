@@ -25,7 +25,7 @@ defmodule StandardRulesetTest do
     "snek8"
   ]
 
-  @snake_move_directions [:north, :south, :east, :west]
+  @snake_move_directions [:up, :down, :left, :right]
 
   def setup_for_standard_board_sizes(_context) do
     %{
@@ -326,7 +326,7 @@ defmodule StandardRulesetTest do
         # Must move in some direction first before there is a "backward"
         # direction into the snake's own neck
         initial_moves = Enum.map(@fixed_8_snake_ids, fn snake_id ->
-          {snake_id, :north}
+          {snake_id, :up}
         end)
 
         board1 = Standard.next(board0, initial_moves)
@@ -335,7 +335,7 @@ defmodule StandardRulesetTest do
         throwing_moves = Enum.map(board1.snakes, fn snake ->
           [_head, neck | _] = snake.body
 
-          backward = Enum.find([:north, :south, :east, :west], fn move ->
+          backward = Enum.find([:up, :down, :left, :right], fn move ->
             Snake.step(snake, move) == neck
           end)
 
@@ -389,7 +389,7 @@ defmodule StandardRulesetTest do
       do
         assert Enum.empty?(Board.unoccupied_points(full_board))
 
-        snake_moves = [{"snek1", :east}]
+        snake_moves = [{"snek1", :right}]
         apple_spawn_chance = 1.0
 
         assert %Board{} = Standard.next(full_board, snake_moves, apple_spawn_chance)
@@ -412,7 +412,7 @@ defmodule StandardRulesetTest do
       {:ok, board_with_snake} = Board.spawn_snake(empty_board, "snek1", Point.new(1, 1), snake_length, snake_health)
       {:ok, board0} = Board.spawn_apple(board_with_snake, Point.new(4, 1))
 
-      repeat_snake_moves = [{"snek1", :east}]
+      repeat_snake_moves = [{"snek1", :right}]
 
       board1 = Standard.next(board0, repeat_snake_moves, food_spawn_chance)
       board2 = Standard.next(board1, repeat_snake_moves, food_spawn_chance)
@@ -446,7 +446,7 @@ defmodule StandardRulesetTest do
 
       {:ok, board0} = Board.spawn_snake(empty_board, "snek1", Point.new(1, 1), snake_length, snake_health)
 
-      snake_moves = [{"snek1", :east}]
+      snake_moves = [{"snek1", :right}]
 
       board1 = Standard.next(board0, snake_moves, food_spawn_chance)
 
@@ -476,7 +476,7 @@ defmodule StandardRulesetTest do
       {:ok, board_with_2_snakes} = Board.spawn_snake(board_with_1_snake, "snek2", Point.new(7, 1), snake_length, snake_health)
       {:ok, board0} = Board.spawn_apple(board_with_2_snakes, apple)
 
-      repeat_snake_moves = [{"snek1", :east}, {"snek2", :west}]
+      repeat_snake_moves = [{"snek1", :right}, {"snek2", :left}]
 
       board1 = Standard.next(board0, repeat_snake_moves, food_spawn_chance)
       board2 = Standard.next(board1, repeat_snake_moves, food_spawn_chance)
@@ -511,7 +511,7 @@ defmodule StandardRulesetTest do
     test "all alive snakes are moved including the one without a specified move" do
       snake_ids = ["s1", "s2", "s3"]
       {:ok, board0} = Standard.init(Board.Size.large, snake_ids)
-      snake_moves = [{"s1", :south}, {"s3", :south}]
+      snake_moves = [{"s1", :down}, {"s3", :down}]
       board1 = Standard.next(board0, snake_moves)
 
       alive_snakes = Enum.filter(board1.snakes, &Snake.alive?/1)
@@ -530,8 +530,8 @@ defmodule StandardRulesetTest do
            {:ok, board_with_1_snake} <- Board.spawn_snake(empty_board, "snek1", Point.new(0, 0)),
            {:ok, board_with_2_snakes} <- Board.spawn_snake(board_with_1_snake, "snek2", Point.new(2, 0)),
            {:ok, board_with_3_snakes} <- Board.spawn_snake(board_with_2_snakes, "snek3", Point.new(4, 0)),
-           board_with_1_snake_eliminated <- Standard.next(board_with_3_snakes, [{"snek1", :north}, {"snek2", :east}, {"snek3", :east}]),
-           board_with_2_snakes_eliminated <- Standard.next(board_with_1_snake_eliminated, [{"snek1", nil}, {"snek2", :north}, {"snek3", :south}])
+           board_with_1_snake_eliminated <- Standard.next(board_with_3_snakes, [{"snek1", :up}, {"snek2", :right}, {"snek3", :right}]),
+           board_with_2_snakes_eliminated <- Standard.next(board_with_1_snake_eliminated, [{"snek1", nil}, {"snek2", :up}, {"snek3", :down}])
       do
         assert Board.alive_snakes_remaining(board_with_3_snakes) == 3
         assert Board.alive_snakes_remaining(board_with_1_snake_eliminated) == 2

@@ -53,8 +53,8 @@ Board.empty?(turn0) # => false
 Board.alive_snakes_remaining(turn0) # => 2
 
 # Apply moves for two turns
-turn1 = Standard.next(turn0, [{"snek1", :west}, {"snek2", :north}])
-turn2 = Standard.next(turn1, [{"snek1", :south}, {"snek2", :east}])
+turn1 = Standard.next(turn0, [{"snek1", :left}, {"snek2", :up}])
+turn2 = Standard.next(turn1, [{"snek1", :down}, {"snek2", :right}])
 
 # Is the game over? (See if you can figure out *why* the game isn't over!)
 Standard.done?(turn2) # => false
