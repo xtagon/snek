@@ -24,3 +24,6 @@ snek-*.tar
 
 # Ignore a sandbox directory, for developers to dump their notes and temp files
 /sandbox/
+
+# Ignore Benchee HTML output for benchmarks
+/benchmarks/output

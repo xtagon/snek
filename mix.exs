@@ -50,13 +50,16 @@ defmodule Snek.MixProject do
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:stream_data, "~> 0.1", only: [:dev, :test]},
-      {:benchee, "~> 1.0", only: [:dev, :test]}
+      {:benchee, "~> 1.0", only: :dev},
+      {:benchee_html, "~> 1.0", only: :dev},
+      {:exprof, "~> 0.2.0", only: :dev}
     ]
   end
 
   defp aliases do
     [
-      bench: "run bench.exs"
+      bench: "run -r test/support/small_static_cycle.ex bench.exs",
+      profile: "run -r test/support/small_static_cycle.ex profile.exs"
     ]
   end
 

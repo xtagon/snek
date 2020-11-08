@@ -1,5 +1,11 @@
 alias Snek.Board
 alias Snek.Ruleset.Standard
+alias Snek.SmallStaticCycle
+
+formatters = [
+  {Benchee.Formatters.HTML, auto_open: false},
+  Benchee.Formatters.Console
+]
 
 snake_ids_2p = MapSet.new(["p1", "p2"])
 snake_ids_6p = MapSet.new(["p1", "p2", "p3", "p4", "p5", "p6"])
@@ -39,6 +45,9 @@ no_apple_spawn_chance = 0.0
 
 Benchee.run(
   %{
+    "solo.small-static-cycle" => fn ->
+      _final_board = SmallStaticCycle.run
+    end,
     "standard.init.2p" => fn ->
       {:ok, _board} = Standard.init(Board.Size.small, snake_ids_2p)
     end,
@@ -63,5 +72,6 @@ Benchee.run(
     "standard.next.8p.no-apple-spawn" => fn ->
       _next_board = Standard.next(board_8p, snake_moves_8p, no_apple_spawn_chance)
     end
-  }
+  },
+  formatters: formatters
 )
