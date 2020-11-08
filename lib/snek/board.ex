@@ -1074,11 +1074,11 @@ defmodule Snek.Board do
   @doc since: "0.1.0"
   @spec within_bounds?(t, Point.t) :: boolean
 
-  def within_bounds?(board, %Point{x: x, y: y}) do
-    x_bounds = 0..board.size.width-1
-    y_bounds = 0..board.size.height-1
-    Enum.member?(x_bounds, x) && Enum.member?(y_bounds, y)
-  end
+  def within_bounds?(%Board{size: %Size{width: width, height: height}}, %Point{x: x, y: y})
+  when x < 0 or y < 0 or x >= width or y >= height,
+  do: false
+
+  def within_bounds?(_board, _point), do: true
 
   @doc """
   Returns true if and only if this point is outside of the board's boundaries,

@@ -41,6 +41,11 @@ there is a new official change to the rules that has not been corrected, please
 - Corrected a typo in the documentation explaining why the two arguments are
   not commutative in `Snek.Board.snake_collides_with_other_snake?/2`.
 
+### Performance
+
+- Improved performance of `Snek.Board.within_bounds?/2`, which improves overall
+  performance in all rulesets as it is a frequently called function.
+
 ## [0.4.0] - 2020-09-05
 
 ### Added
