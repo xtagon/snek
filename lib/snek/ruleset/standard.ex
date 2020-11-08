@@ -83,14 +83,14 @@ defmodule Snek.Ruleset.Standard do
     mx = board_size.width - 2
 
     [
-      %Point{x: mn, y: mn},
-      %Point{x: mn, y: md},
-      %Point{x: mn, y: mx},
-      %Point{x: md, y: mn},
-      %Point{x: md, y: mx},
-      %Point{x: mx, y: mn},
-      %Point{x: mx, y: md},
-      %Point{x: mx, y: mx}
+      Point.new(mn, mn),
+      Point.new(mn, md),
+      Point.new(mn, mx),
+      Point.new(md, mn),
+      Point.new(md, mx),
+      Point.new(mx, mn),
+      Point.new(mx, md),
+      Point.new(mx, mx)
     ]
   end
 
