@@ -29,7 +29,7 @@ defmodule Snek.Ruleset.Standard do
 
   def next(board, snake_moves, apple_spawn_chance \\ @apple_spawn_chance) do
     board
-    |> Board.move_snakes(all_snake_moves(board, snake_moves))
+    |> Board.move_snakes(snake_moves)
     |> Board.reduce_snake_healths
     |> Board.maybe_feed_snakes
     |> maybe_spawn_apple(apple_spawn_chance)
@@ -38,24 +38,6 @@ defmodule Snek.Ruleset.Standard do
 
   def done?(board) do
     Board.alive_snakes_remaining(board) <= 1
-  end
-
-  defp all_snake_moves(board, snake_moves) do
-    snake_ids_with_moves = Enum.map(snake_moves, fn {snake_id, _move} ->
-      snake_id
-    end)
-
-    alive_snake_ids = board.snakes
-    |> Enum.filter(&Snake.alive?/1)
-    |> Enum.map(&(&1.id))
-
-    alive_snake_ids_without_moves = alive_snake_ids -- snake_ids_with_moves
-
-    default_snake_moves = Enum.map(alive_snake_ids_without_moves, fn snake_id ->
-      {snake_id, nil}
-    end)
-
-    snake_moves ++ default_snake_moves
   end
 
   defp known_board_size?(%Size{width: 7, height: 7}), do: true

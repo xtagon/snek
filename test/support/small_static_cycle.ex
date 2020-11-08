@@ -69,7 +69,7 @@ defmodule Snek.SmallStaticCycle do
       if Solo.done?(board) do
         {:error, :game_over}
       else
-        snake_moves = [{@snake_id, get(board)}]
+        snake_moves = %{@snake_id => get(board)}
         next_board = Solo.next(board, snake_moves, @apple_spawn_chance)
         {:ok, next_board}
       end
