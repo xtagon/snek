@@ -31,6 +31,10 @@ there is a new official change to the rules that has not been corrected, please
   `:south`, `:east`, and `:west` to `:up`, `:down`, `:right`, and `:left`
   respectively.  This matches the directions in the official Battlesnake
   documentation.
+- 💥 **Breaking** - Points (coordinates) are now structured as `{x, y}` tuples
+  instead of structs. The `Snek.Board.Point` module's API has not changed much,
+  but if you were relying on the `%Point{}` structure, such as using it in
+  pattern matching heads, this will be a breaking change.
 
 ### Removed
 
@@ -60,9 +64,9 @@ there is a new official change to the rules that has not been corrected, please
 
 ### Performance
 
-- Improved performance of `Snek.Board.within_bounds?/2` and
-  `Snek.Board.move_snakes/2`, which improves overall performance in all
-  rulesets as these are frequently called functions.
+- Improved the overall performance of all rulesets, by optimizing some
+  frequently used functions and data structures. Also added some basic
+  benchmark and profiling runners to assist in development.
 
 ## [0.4.0] - 2020-09-05
 
