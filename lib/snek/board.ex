@@ -1134,7 +1134,7 @@ defmodule Snek.Board do
   Returns true if and only if `snake_a`'s head is in collision with any of
   `snake_b`'s body parts, excluding `snake_b`'s head. Otherwise, returns false.
 
-  The two snake arguments commutative. One snake my collide with
+  The two snake arguments are not commutative. One snake my collide with
   another snake's body, and yet the other snake's head may not be in a
   collision.
 

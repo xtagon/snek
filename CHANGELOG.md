@@ -36,6 +36,11 @@ there is a new official change to the rules that has not been corrected, please
 - Setting `apply_spawn_chance` to `0.0` was still spawning an apple on turns
   where there were no apples on the board.
 
+### Documentation
+
+- Corrected a typo in the documentation explaining why the two arguments are
+  not commutative in `Snek.Board.snake_collides_with_other_snake?/2`.
+
 ## [0.4.0] - 2020-09-05
 
 ### Added
