@@ -21,13 +21,18 @@ there is a new official change to the rules that has not been corrected, please
 
 ### Changed
 
-- 💥 **Breaking** - Relative directions have been removed (i.e. `:forward`,
-  `:backward`, `:left`, `:right`, `:northeast`, `:northwest`, `:southeast`,
-  `:southwest`) and normal directions have been renamed from `:north`,
+- 💥 **Breaking** - Directions have been renamed from `:north`,
   `:south`, `:east`, and `:west` to `:up`, `:down`, `:right`, and `:left`
   respectively.  This matches the directions in the official Battlesnake
-  documentation. Relative directions were removed to prevent confusion as
-  `:left` could otherwise be interpreted as relative, for example. It is also
+  documentation.
+
+### Removed
+
+- 💥 **Breaking** - Relative directions have been removed (i.e. `:forward`,
+  `:backward`, `:left`, `:right`, `:northeast`, `:northwest`, `:southeast`,
+  `:southwest`) Relative directions were removed to prevent confusion as
+  `:left` could otherwise be interpreted as relative, for example, and we're
+  changing to match the official Battlesnake nomenclature. It is also
   unnecessary to have relative direction logic in the ruleset code, as snake
   moves for a turn are always expected to be one of the four legal directions.
 
