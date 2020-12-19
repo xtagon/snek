@@ -6,7 +6,7 @@ defmodule Snek.Ruleset do
   dynamically specifying:
 
   1. `c:init/2`: The initial board position
-  2. `c:next/2`: Each next turn's board position after moves are applied
+  2. `c:next/3`: Each next turn's board position after moves are applied
   3. `c:done?/1`: When the game is considered over
   """
   @moduledoc since: "0.1.0"

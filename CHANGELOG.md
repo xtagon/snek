@@ -61,6 +61,7 @@ there is a new official change to the rules that has not been corrected, please
   `Snek.Board.move_snake/3`, specifically that it only moves alive snakes (as
   was already the case), and that the default move is now always `:up` (not the
   snake's previous direction).
+- Corrected the arity of `c:Snek.Ruleset.next/3` in the `Snek.Ruleset` docs.
 
 ### Performance
 
