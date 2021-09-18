@@ -62,6 +62,7 @@ there is a new official change to the rules that has not been corrected, please
   was already the case), and that the default move is now always `:up` (not the
   snake's previous direction).
 - Corrected the arity of `c:Snek.Ruleset.next/3` in the `Snek.Ruleset` docs.
+- Add link to Battlesnake's Discord in `README.md` as they moved from Slack.
 
 ### Performance
 
